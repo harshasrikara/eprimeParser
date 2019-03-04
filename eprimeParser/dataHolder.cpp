@@ -18,6 +18,10 @@ dataHolder::dataHolder(std::string file) //with file
     allData = file;
     TrialNumber = getTrialNumber(allData);
     startTime = getStartTime(allData);
+    procedureList = getProcedure(allData);
+    Hold_OnsetTime = getHold_OnsetTime(allData);
+    Off_OnsetTime = getOff_OnsetTime(allData);
+    RatePain_OnsetTime = getRatePain_OnsetTime(allData);
 }
 dataHolder::dataHolder(std::string file, std::string uniqueId) //with file and 6 digit patient ID
 {
@@ -25,6 +29,10 @@ dataHolder::dataHolder(std::string file, std::string uniqueId) //with file and 6
     uniquePatientId = uniqueId;
     TrialNumber = getTrialNumber(allData);
     startTime = getStartTime(allData);
+    procedureList = getProcedure(allData);
+    Hold_OnsetTime = getHold_OnsetTime(allData);
+    Off_OnsetTime = getOff_OnsetTime(allData);
+    RatePain_OnsetTime = getRatePain_OnsetTime(allData);
 }
 
 int dataHolder::getTrialNumber(std::string file)
@@ -75,6 +83,128 @@ std::string dataHolder::getUniquePatientId() const
 std::string dataHolder::getAllData() const
 {
     return allData;
+}
+
+//vector const getters
+std::vector<std::string> dataHolder::getProcedure() const
+{
+    return procedureList;
+}
+std::vector<int> dataHolder::getHold_OnsetTime() const
+{
+    return Hold_OnsetTime;
+}
+std::vector<int> dataHolder::getOff_OnsetTime() const
+{
+    return Off_OnsetTime;
+}
+std::vector<int> dataHolder::getRatePain_OnsetTime() const
+{
+    return RatePain_OnsetTime;
+}
+
+std::vector<std::string> dataHolder::getProcedure(std::string file)
+{
+    std::vector<std::string> procedureList;
+    std::istringstream lineFinder(file);
+    std::string lastLine;
+    for (std::string line; std::getline(lineFinder, line);)
+    {
+        while(check(line,"Procedure")==-1 && !lineFinder.eof()) //get first part
+        {
+            std::getline(lineFinder, line);
+        }
+        lastLine = line;
+        std::stringstream ss;
+        /* Storing the whole string into string stream */
+        ss << lastLine;
+        /* Running loop till the end of the stream */
+        std::string temp;
+        ss>>temp;
+        ss>>temp;
+        procedureList.push_back(temp);
+    }
+    
+    //std::cout<<procedureList.size()<<std::endl;
+    return procedureList;
+}
+
+std::vector<int> dataHolder::getHold_OnsetTime(std::string file)
+{
+    std::vector<int> HoldOnsetTimeList;
+    std::istringstream lineFinder(file);
+    int num;
+    std::string lin;
+    for (std::string line; std::getline(lineFinder, line);)
+    {
+        if(lineFinder.eof())
+        {
+            break;
+        }
+        while(check(line,"Hold.Onset")==-1 && !lineFinder.eof()) //get first part
+        {
+            std::getline(lineFinder, line);
+        }
+        if(check(line, "Hold.Onset")!=-1)
+        {
+            lin = line;
+            num = getNumber(lin);
+            HoldOnsetTimeList.push_back(num);
+        }
+    }
+    return HoldOnsetTimeList;
+}
+
+std::vector<int> dataHolder::getOff_OnsetTime(std::string file)
+{
+    std::vector<int> HoldOnsetTimeList;
+    std::istringstream lineFinder(file);
+    int num;
+    std::string lin;
+    for (std::string line; std::getline(lineFinder, line);)
+    {
+        if(lineFinder.eof())
+        {
+            break;
+        }
+        while(check(line,"Off.Onset")==-1 && !lineFinder.eof()) //get first part
+        {
+            std::getline(lineFinder, line);
+        }
+        if(check(line, "Off.Onset")!=-1)
+        {
+            lin = line;
+            num = getNumber(lin);
+            HoldOnsetTimeList.push_back(num);
+        }
+    }
+    return HoldOnsetTimeList;
+}
+
+std::vector<int> dataHolder::getRatePain_OnsetTime(std::string file)
+{
+    std::vector<int> HoldOnsetTimeList;
+    std::istringstream lineFinder(file);
+    int num;
+    std::string lin;
+    for (std::string line; std::getline(lineFinder, line);)
+    {
+        if(lineFinder.eof())
+        {
+            break;
+        }
+        while(check(line,"RatePain")==-1 && !lineFinder.eof()) //get first part
+        {
+            std::getline(lineFinder, line);
+        }
+        if(check(line, "RatePain")!=-1)
+        {
+            lin = line;
+            num = getNumber(lin);
+            HoldOnsetTimeList.push_back(num);
+        }
+    }
+    return HoldOnsetTimeList;
 }
 
 //gets a number inside a string

@@ -12,14 +12,17 @@
 #include <string>
 #include "dataHolder.hpp"
 
+//prototypes
 std::string getData(std::string filename);
 std::string simplifyData(std::string info);
 std::string splitData(std::string &total);
 int getFirstNumber(std::string str);
 std::string getSubjectNumber(std::string file);
 int func(std::string str);
-
 int check(std::string row,std::string wordToBeFound);
+void printVector(std::vector<std::string> pList);
+void printVector(std::vector<int> pList);
+
 
 int main(int argc, const char * argv[]) {
     
@@ -39,7 +42,7 @@ int main(int argc, const char * argv[]) {
     std::string simplfiedData;
     simplfiedData = simplifyData(extractedData);
     
-    //std::cout<<simplifiedData<<std::endl;
+    //std::cout<<simplfiedData<<std::endl;
     
     std::string first;
     std::string last;
@@ -56,6 +59,11 @@ int main(int argc, const char * argv[]) {
     dataHolder lastTrial(last,subjectNumber);
     
     
+    std::vector<int> pList = firstTrial.getRatePain_OnsetTime(first);
+    for(int i =0;i<pList.size();i++)
+    {
+        std::cout<<pList[i]<<std::endl;
+    }
     return 0;
     
 }
@@ -158,6 +166,7 @@ std::string splitData(std::string &simplifiedData)
     
     for (std::string line; std::getline(lineFinder, line);)
     {
+        first = first + line+ "\n";
         while(check(line,"RTTime")==-1) //get first part
         {
             std::getline(lineFinder, line);
@@ -262,4 +271,19 @@ std::string getSubjectNumber(std::string file)
         subject = std::to_string(temp);
     }
     return subject;
+}
+
+void printVector(std::vector<std::string> pList)
+{
+    for(int i =0;i<pList.size();i++)
+    {
+        std::cout<<pList[i]<<std::endl;
+    }
+}
+void printVector(std::vector<int> pList)
+{
+    for(int i =0;i<pList.size();i++)
+    {
+        std::cout<<pList[i]<<std::endl;
+    }
 }

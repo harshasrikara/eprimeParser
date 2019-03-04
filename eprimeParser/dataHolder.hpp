@@ -40,6 +40,12 @@ class dataHolder
     std::string getUniquePatientId() const; //done
     std::string getAllData() const; //done
     
+    //vector getters
+    std::vector<std::string> getProcedure() const;
+    std::vector<int> getHold_OnsetTime() const;
+    std::vector<int> getOff_OnsetTime() const;
+    std::vector<int> getRatePain_OnsetTime() const;
+    
     //setters and calculations
     int getTrialNumber(std::string); //done
     int getStartTime(std::string); //done
@@ -49,7 +55,7 @@ class dataHolder
     int getNumber(std::string); //done
     int getFirstNumber(std::string); //done
     
-    //searvh and extract functions(multiple values)
+    //search and extract functions(multiple values)
     std::vector<std::string> getProcedure(std::string);
     std::vector<int> getHold_OnsetTime(std::string);
     std::vector<int> getOff_OnsetTime(std::string);
