@@ -110,19 +110,26 @@ std::vector<std::string> dataHolder::getProcedure(std::string file)
     std::string lastLine;
     for (std::string line; std::getline(lineFinder, line);)
     {
+        if(lineFinder.eof())
+        {
+            break;
+        }
         while(check(line,"Procedure")==-1 && !lineFinder.eof()) //get first part
         {
             std::getline(lineFinder, line);
         }
-        lastLine = line;
-        std::stringstream ss;
-        /* Storing the whole string into string stream */
-        ss << lastLine;
-        /* Running loop till the end of the stream */
-        std::string temp;
-        ss>>temp;
-        ss>>temp;
-        procedureList.push_back(temp);
+        if(check(line, "Procedure")!=-1)
+        {
+            lastLine = line;
+            std::stringstream ss;
+            /* Storing the whole string into string stream */
+            ss << lastLine;
+            /* Running loop till the end of the stream */
+            std::string temp;
+            ss>>temp;
+            ss>>temp;
+            procedureList.push_back(temp);
+        }
     }
     
     //std::cout<<procedureList.size()<<std::endl;

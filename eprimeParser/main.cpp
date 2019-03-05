@@ -22,6 +22,7 @@ int func(std::string str);
 int check(std::string row,std::string wordToBeFound);
 void printVector(std::vector<std::string> pList);
 void printVector(std::vector<int> pList);
+void print(dataHolder data);
 
 
 int main(int argc, const char * argv[]) {
@@ -31,41 +32,51 @@ int main(int argc, const char * argv[]) {
     std::string file;
     std::getline(std::cin,file);
     
-    //calls function to extract data
-    std::string extractedData;
-    extractedData = getData(file);
-    
-    //std::cout<<extractedData<<std::endl;
-    std::string subjectNumber = getSubjectNumber(extractedData);
-    
-    //calls function to isolate relevant sections
-    std::string simplfiedData;
-    simplfiedData = simplifyData(extractedData);
-    
-    //std::cout<<simplfiedData<<std::endl;
-    
-    std::string first;
-    std::string last;
-    
-    //This splits the two runs into seperate strings.
-    last = splitData(simplfiedData);
-    first = simplfiedData;
-    
-    //std::cout<<"FIRST"<<first<<std::endl;
-    //std::cout<<"\n\n\n\n"<<std::endl;
-    //std::cout<<"LAST"<<last<<std::endl;
-    
-    dataHolder firstTrial(first,subjectNumber);
-    dataHolder lastTrial(last,subjectNumber);
-    
-    
-    std::vector<int> pList = firstTrial.getRatePain_OnsetTime(first);
-    for(int i =0;i<pList.size();i++)
+    //exception handling. Actual file opening done by the getData function.
+    std::ifstream myReadFile; //input stream
+    myReadFile.open(file);
+    if(myReadFile)
     {
-        std::cout<<pList[i]<<std::endl;
+        myReadFile.close();
+        //calls function to extract data
+        std::string extractedData;
+        extractedData = getData(file);
+        
+        //std::cout<<extractedData<<std::endl;
+        std::string subjectNumber = getSubjectNumber(extractedData);
+        
+        //calls function to isolate relevant sections
+        std::string simplfiedData;
+        simplfiedData = simplifyData(extractedData);
+        
+        //std::cout<<simplfiedData<<std::endl;
+        
+        std::string first;
+        std::string last;
+        
+        //This splits the two runs into seperate strings.
+        last = splitData(simplfiedData);
+        first = simplfiedData;
+        
+        //std::cout<<"FIRST"<<first<<std::endl;
+        //std::cout<<"\n\n\n\n"<<std::endl;
+        //std::cout<<"LAST"<<last<<std::endl;
+        
+        dataHolder firstTrial(first,subjectNumber);
+        dataHolder lastTrial(last,subjectNumber);
+        
+        /*
+        std::vector<int> pList = firstTrial.getRatePain_OnsetTime(first);
+        for(int i =0;i<pList.size();i++)
+        {
+            std::cout<<pList[i]<<std::endl;
+        }
+        */
+        print(firstTrial);
+        std::cout<<"\n\n\n\n"<<std::endl;
+        print(lastTrial);
+        return 0;
     }
-    return 0;
-    
 }
 
 std::string getData(std::string filename)
@@ -286,4 +297,41 @@ void printVector(std::vector<int> pList)
     {
         std::cout<<pList[i]<<std::endl;
     }
+}
+void print(dataHolder data)
+{
+    //initialization. Collect variables.
+    std::string output;
+    std::vector<std::string> procedureList = data.getProcedure();
+    std::vector<int> hold_onsetTime = data.getHold_OnsetTime();
+    std::vector<int> off_onsetTime = data.getOff_OnsetTime();
+    std::vector<int> ratePain_onsetTime = data.getRatePain_OnsetTime();
+    int startScanTime = data.getStartTime();
+    int runNum = data.getTrialNumber();
+    
+    std::cout<<"This is trial "<<std::to_string(runNum)<<std::endl;
+    //Hold - Off - Rate
+    output = "Onset\tDuration\tTrialType\n";
+    for(int i = 0;i<procedureList.size();i++)
+    {
+        //removing offset and converting to seconds from milliseconds
+        hold_onsetTime[i] = (hold_onsetTime[i] - startScanTime)/1000;
+        off_onsetTime[i] = (off_onsetTime[i] - startScanTime)/1000;
+        ratePain_onsetTime[i] = (ratePain_onsetTime[i] - startScanTime)/1000;
+    }
+    for(int i = 0;i<procedureList.size();i++)
+    {
+        output = output + std::to_string(hold_onsetTime[i])+"\t"+std::to_string(25)+"\t"+procedureList[i] + "\n";
+        if(1!=procedureList.size()-1)
+        {
+            output = output + std::to_string(off_onsetTime[i])+"\t"+std::to_string(20)+"\t"+procedureList[i] + "\n";
+        }
+        else
+        {
+            output = output + std::to_string(off_onsetTime[i])+"\t"+std::to_string(20)+"\t"+procedureList[i] + "\n";
+        }
+        output = output + std::to_string(ratePain_onsetTime[i])+"\t"+std::to_string(5)+"\t"+procedureList[i] + "\n";
+    }
+    
+    std::cout<<output<<std::endl;
 }
