@@ -22,7 +22,7 @@ int func(std::string str);
 int check(std::string row,std::string wordToBeFound);
 void printVector(std::vector<std::string> pList);
 void printVector(std::vector<int> pList);
-void print(dataHolder data);
+std::string print(dataHolder data);
 
 
 int main(int argc, const char * argv[]) {
@@ -72,9 +72,9 @@ int main(int argc, const char * argv[]) {
             std::cout<<pList[i]<<std::endl;
         }
         */
-        print(firstTrial);
+        std::cout<<print(firstTrial)<<std::endl;
         std::cout<<"\n\n\n\n"<<std::endl;
-        print(lastTrial);
+        std::cout<<print(lastTrial)<<std::endl;
         return 0;
     }
 }
@@ -298,7 +298,7 @@ void printVector(std::vector<int> pList)
         std::cout<<pList[i]<<std::endl;
     }
 }
-void print(dataHolder data)
+std::string print(dataHolder data)
 {
     //initialization. Collect variables.
     std::string output;
@@ -321,17 +321,18 @@ void print(dataHolder data)
     }
     for(int i = 0;i<procedureList.size();i++)
     {
-        output = output + std::to_string(hold_onsetTime[i])+"\t"+std::to_string(25)+"\t"+procedureList[i] + "\n";
-        if(1!=procedureList.size()-1)
+        output = output + std::to_string(hold_onsetTime[i])+"\t"+std::to_string(off_onsetTime[i] - hold_onsetTime[i])+"\t"+procedureList[i] + "\n";
+        if(i!=procedureList.size()-1)
         {
-            output = output + std::to_string(off_onsetTime[i])+"\t"+std::to_string(20)+"\t"+procedureList[i] + "\n";
+            output = output + std::to_string(off_onsetTime[i])+"\t"+std::to_string(hold_onsetTime[i+1] - off_onsetTime[i])+"\t"+procedureList[i] + "\n";
         }
         else
         {
             output = output + std::to_string(off_onsetTime[i])+"\t"+std::to_string(20)+"\t"+procedureList[i] + "\n";
         }
-        output = output + std::to_string(ratePain_onsetTime[i])+"\t"+std::to_string(5)+"\t"+procedureList[i] + "\n";
+        output = output + std::to_string(ratePain_onsetTime[i])+"\t"+std::to_string(off_onsetTime[i] - ratePain_onsetTime[i])+"\t"+procedureList[i] + "\n";
     }
     
-    std::cout<<output<<std::endl;
+    //std::cout<<output<<std::endl;
+    return output;
 }
