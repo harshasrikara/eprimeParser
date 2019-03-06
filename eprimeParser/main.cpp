@@ -72,10 +72,30 @@ int main(int argc, const char * argv[]) {
             std::cout<<pList[i]<<std::endl;
         }
         */
+        
+        //optional cout to console/terminal
         std::cout<<print(firstTrial)<<std::endl;
         std::cout<<"\n\n\n\n"<<std::endl;
         std::cout<<print(lastTrial)<<std::endl;
+        
+        //writing to a .txt file
+        std::ofstream myfile;
+        std::string trialNumFileName;
+        trialNumFileName = firstTrial.getUniquePatientId() + "Run" + std::to_string(firstTrial.getTrialNumber()) + ".tsv";
+        myfile.open (trialNumFileName);
+        myfile << print(firstTrial);
+        myfile.close();
+        
+        trialNumFileName = lastTrial.getUniquePatientId() + "Run" + std::to_string(lastTrial.getTrialNumber()) + ".tsv";
+        myfile.open (trialNumFileName);
+        myfile << print(lastTrial);
+        myfile.close();
         return 0;
+    }
+    else //if file opening failed
+    {
+        std::cout<<file << " failed to open"<<std::endl;
+        return 2;
     }
 }
 
@@ -197,7 +217,7 @@ std::string splitData(std::string &simplifiedData)
     return last;
 }
 
-//checks to see if one string is a substring of another string
+//checks to see if one string is a substring of another string (returns index of where substring begins) (-1 if not found)
 int check(std::string row,std::string wordToBeFound)
 {
     
@@ -321,16 +341,16 @@ std::string print(dataHolder data)
     }
     for(int i = 0;i<procedureList.size();i++)
     {
-        output = output + std::to_string(hold_onsetTime[i])+"\t"+std::to_string(off_onsetTime[i] - hold_onsetTime[i])+"\t"+procedureList[i] + "\n";
+        output = output + std::to_string(hold_onsetTime[i])+"\t"+std::to_string(off_onsetTime[i] - hold_onsetTime[i])+"\t"+procedureList[i] + "CueOn\n";
         if(i!=procedureList.size()-1)
         {
-            output = output + std::to_string(off_onsetTime[i])+"\t"+std::to_string(hold_onsetTime[i+1] - off_onsetTime[i])+"\t"+procedureList[i] + "\n";
+            output = output + std::to_string(off_onsetTime[i])+"\t"+std::to_string(hold_onsetTime[i+1] - off_onsetTime[i])+"\t"+procedureList[i] + "CueOff\n";
         }
         else
         {
-            output = output + std::to_string(off_onsetTime[i])+"\t"+std::to_string(20)+"\t"+procedureList[i] + "\n";
+            output = output + std::to_string(off_onsetTime[i])+"\t"+std::to_string(20)+"\t"+procedureList[i] + "CueOff\n";
         }
-        output = output + std::to_string(ratePain_onsetTime[i])+"\t"+std::to_string(off_onsetTime[i] - ratePain_onsetTime[i])+"\t"+procedureList[i] + "\n";
+        output = output + std::to_string(ratePain_onsetTime[i])+"\t"+std::to_string(off_onsetTime[i] - ratePain_onsetTime[i])+"\t"+procedureList[i] + "RateOnset\n";
     }
     
     //std::cout<<output<<std::endl;
