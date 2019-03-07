@@ -78,7 +78,8 @@ int main(int argc, const char * argv[]) {
         std::cout<<"\n\n\n\n"<<std::endl;
         std::cout<<print(lastTrial)<<std::endl;
         
-        //writing to a .txt file
+        //writing to a .tsv file
+        std::cout<<"Writing data to .tsv files"<<std::endl;
         std::ofstream myfile;
         std::string trialNumFileName;
         trialNumFileName = firstTrial.getUniquePatientId() + "Run" + std::to_string(firstTrial.getTrialNumber()) + ".tsv";

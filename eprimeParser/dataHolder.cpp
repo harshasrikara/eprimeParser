@@ -15,9 +15,14 @@ dataHolder::dataHolder() //default
 }
 dataHolder::dataHolder(std::string file) //with file
 {
+    //initialize variable
     allData = file;
+    
+    //get unique idenitifiers for this trial
     TrialNumber = getTrialNumber(allData);
     startTime = getStartTime(allData);
+    
+    //create vectors that hold data for each trial
     procedureList = getProcedure(allData);
     Hold_OnsetTime = getHold_OnsetTime(allData);
     Off_OnsetTime = getOff_OnsetTime(allData);
@@ -25,10 +30,15 @@ dataHolder::dataHolder(std::string file) //with file
 }
 dataHolder::dataHolder(std::string file, std::string uniqueId) //with file and 6 digit patient ID
 {
+    //initialize variables
     allData = file;
     uniquePatientId = uniqueId;
+    
+    //get unique idenitifiers for this trial
     TrialNumber = getTrialNumber(allData);
     startTime = getStartTime(allData);
+    
+    //create vectors that hold data for each trial
     procedureList = getProcedure(allData);
     Hold_OnsetTime = getHold_OnsetTime(allData);
     Off_OnsetTime = getOff_OnsetTime(allData);
@@ -37,15 +47,20 @@ dataHolder::dataHolder(std::string file, std::string uniqueId) //with file and 6
 
 int dataHolder::getTrialNumber(std::string file)
 {
+    //adds file into a stream of data
     std::istringstream lineFinder(file);
     std::string lastLine;
+    
+    //goes through the data line by line
     for (std::string line; std::getline(lineFinder, line);)
     {
+        //searches for RTTime
         while(check(line,"RTTime")==-1) //get first part
         {
             std::getline(lineFinder, line);
         }
         lastLine = line;
+        //gets first number found on that line - eg. StartRun1.RTTime
         return getFirstNumber(lastLine);
     }
     return -1;
@@ -53,15 +68,20 @@ int dataHolder::getTrialNumber(std::string file)
 
 int dataHolder::getStartTime(std::string file)
 {
+    //adds file into a stream of data
     std::istringstream lineFinder(file);
     std::string lastLine;
+    
+    //goes through the data line by line
     for (std::string line; std::getline(lineFinder, line);)
     {
+        //RTTime is considered as the start time for trials
         while(check(line,"RTTime")==-1) //get first part
         {
             std::getline(lineFinder, line);
         }
         lastLine = line;
+        //gets the RTTime - eg. StartTun1.RTTime: 12345678
         return getNumber(lastLine);
     }
     return -1;
@@ -110,14 +130,17 @@ std::vector<std::string> dataHolder::getProcedure(std::string file)
     std::string lastLine;
     for (std::string line; std::getline(lineFinder, line);)
     {
+        //ensures that loop exits at the end of the file
         if(lineFinder.eof())
         {
             break;
         }
+        //searches for Procedure
         while(check(line,"Procedure")==-1 && !lineFinder.eof()) //get first part
         {
             std::getline(lineFinder, line);
         }
+        //double checking that we have found procedure
         if(check(line, "Procedure")!=-1)
         {
             lastLine = line;
@@ -127,7 +150,7 @@ std::vector<std::string> dataHolder::getProcedure(std::string file)
             /* Running loop till the end of the stream */
             std::string temp;
             ss>>temp;
-            ss>>temp;
+            ss>>temp; //gets the second word in that line which is the procedure name
             procedureList.push_back(temp);
         }
     }
@@ -140,14 +163,18 @@ std::vector<int> dataHolder::getHold_OnsetTime(std::string file)
 {
     std::vector<int> HoldOnsetTimeList;
     std::istringstream lineFinder(file);
+    
     int num;
     std::string lin;
+    
     for (std::string line; std::getline(lineFinder, line);)
     {
+        //ensures loop exits at the end of file
         if(lineFinder.eof())
         {
             break;
         }
+        //This is considered as cueOn time
         while(check(line,"Hold.Onset")==-1 && !lineFinder.eof()) //get first part
         {
             std::getline(lineFinder, line);
@@ -170,10 +197,12 @@ std::vector<int> dataHolder::getOff_OnsetTime(std::string file)
     std::string lin;
     for (std::string line; std::getline(lineFinder, line);)
     {
+        //ensures that loop exits at the end of file
         if(lineFinder.eof())
         {
             break;
         }
+        //This considered as CueOff time
         while(check(line,"Off.Onset")==-1 && !lineFinder.eof()) //get first part
         {
             std::getline(lineFinder, line);
@@ -196,10 +225,12 @@ std::vector<int> dataHolder::getRatePain_OnsetTime(std::string file)
     std::string lin;
     for (std::string line; std::getline(lineFinder, line);)
     {
+        //ensures loop exits at the end of file
         if(lineFinder.eof())
         {
             break;
         }
+        //This is when the response is given
         while(check(line,"RatePain")==-1 && !lineFinder.eof()) //get first part
         {
             std::getline(lineFinder, line);
@@ -250,9 +281,9 @@ int dataHolder::getFirstNumber(std::string str)
     return -1;
 }
 
+//checks if one string is a substring of another and if yes returns the index of the first character
 int dataHolder::check(std::string row,std::string wordToBeFound)
 {
-    
     std::string temp;
     int i = (int)row.size()+1;
     int j = (int)wordToBeFound.size();
