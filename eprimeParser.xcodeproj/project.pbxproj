@@ -24,7 +24,6 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		F700321F222DF0AD0046870A /* 020053Run1.tsv */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = 020053Run1.tsv; sourceTree = "<group>"; };
 		F707F0A6222C70FD002B799D /* dataHolder.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = dataHolder.cpp; sourceTree = "<group>"; };
 		F707F0A7222C70FD002B799D /* dataHolder.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = dataHolder.hpp; sourceTree = "<group>"; };
 		F7685E21222A0F3D004A6576 /* 020053.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = 020053.txt; sourceTree = "<group>"; };
@@ -62,7 +61,6 @@
 		F796FFDD222A077300FADF01 /* eprimeParser */ = {
 			isa = PBXGroup;
 			children = (
-				F700321F222DF0AD0046870A /* 020053Run1.tsv */,
 				F796FFDE222A077300FADF01 /* main.cpp */,
 				F7685E21222A0F3D004A6576 /* 020053.txt */,
 				F707F0A6222C70FD002B799D /* dataHolder.cpp */,

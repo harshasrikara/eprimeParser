@@ -82,12 +82,12 @@ int main(int argc, const char * argv[]) {
         std::cout<<"Writing data to .tsv files"<<std::endl;
         std::ofstream myfile;
         std::string trialNumFileName;
-        trialNumFileName ="sub-"+ firstTrial.getUniquePatientId() + "_ses-01_task-"+"run1_bold" +/* std::to_string(firstTrial.getTrialNumber()) +*/ ".tsv";
+        trialNumFileName ="sub-"+ firstTrial.getUniquePatientId() + "_ses-01_task-run1_bold" +/* std::to_string(firstTrial.getTrialNumber()) +*/ ".tsv";
         myfile.open (trialNumFileName);
         myfile << print(firstTrial);
         myfile.close();
         
-        trialNumFileName ="sub-"+ lastTrial.getUniquePatientId() + "_ses-01_task-"+"run2_bold" +/* std::to_string(lastTrial.getTrialNumber()) +*/ ".tsv";
+        trialNumFileName ="sub-"+ lastTrial.getUniquePatientId() + "_ses-01_task-run2_bold" +/* std::to_string(lastTrial.getTrialNumber()) +*/ ".tsv";
         myfile.open (trialNumFileName);
         myfile << print(lastTrial);
         myfile.close();
@@ -185,7 +185,7 @@ std::string simplifyData(std::string info)
         {
             output = output + line+ "\n";
         }
-        //std::cout<<line<<std::endl; useful for debug purposes
+        //std::cout<<line<<std::endl; //useful for debug purposes
     }
     return output;
 }
@@ -195,18 +195,19 @@ std::string splitData(std::string &simplifiedData)
     std::istringstream lineFinder(simplifiedData);
     std::string first = "";
     std::string last = "";
+    std::string lineIdentifier = "RTTime";
     
     for (std::string line; std::getline(lineFinder, line);)
     {
         first = first + line+ "\n";
-        while(check(line,"RTTime")==-1) //get first part
+        while(check(line,lineIdentifier)==-1) //get first part
         {
             std::getline(lineFinder, line);
             first = first + line+ "\n";
         }
         std::getline(lineFinder, line);
         last = last + line+ "\n";
-        while(check(line,"RTTime")==-1) //get second part
+        while(check(line,lineIdentifier)==-1) //get second part
         {
             std::getline(lineFinder, line);
             last = last + line+ "\n";
@@ -293,6 +294,8 @@ std::string getSubjectNumber(std::string file)
         break;
         
     }
+    
+    //makes the unique ID 6 digits starting with 0 eg. 20053 -> 020053
     int temp = func(subject);
     if(temp/100000==0)
     {

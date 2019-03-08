@@ -50,12 +50,13 @@ int dataHolder::getTrialNumber(std::string file)
     //adds file into a stream of data
     std::istringstream lineFinder(file);
     std::string lastLine;
+    std::string lineIdentifier = "RTTime";
     
     //goes through the data line by line
     for (std::string line; std::getline(lineFinder, line);)
     {
         //searches for RTTime
-        while(check(line,"RTTime")==-1) //get first part
+        while(check(line,lineIdentifier)==-1) //get first part
         {
             std::getline(lineFinder, line);
         }
@@ -71,12 +72,13 @@ int dataHolder::getStartTime(std::string file)
     //adds file into a stream of data
     std::istringstream lineFinder(file);
     std::string lastLine;
+    std::string lineIdentifier = "RTTime";
     
     //goes through the data line by line
     for (std::string line; std::getline(lineFinder, line);)
     {
         //RTTime is considered as the start time for trials
-        while(check(line,"RTTime")==-1) //get first part
+        while(check(line,lineIdentifier)==-1) //get first part
         {
             std::getline(lineFinder, line);
         }
@@ -128,6 +130,8 @@ std::vector<std::string> dataHolder::getProcedure(std::string file)
     std::vector<std::string> procedureList;
     std::istringstream lineFinder(file);
     std::string lastLine;
+    std::string lineIdentifier = "Procedure";
+    
     for (std::string line; std::getline(lineFinder, line);)
     {
         //ensures that loop exits at the end of the file
@@ -136,12 +140,12 @@ std::vector<std::string> dataHolder::getProcedure(std::string file)
             break;
         }
         //searches for Procedure
-        while(check(line,"Procedure")==-1 && !lineFinder.eof()) //get first part
+        while(check(line,lineIdentifier)==-1 && !lineFinder.eof()) //get first part
         {
             std::getline(lineFinder, line);
         }
         //double checking that we have found procedure
-        if(check(line, "Procedure")!=-1)
+        if(check(line, lineIdentifier)!=-1)
         {
             lastLine = line;
             std::stringstream ss;
@@ -163,6 +167,7 @@ std::vector<int> dataHolder::getHold_OnsetTime(std::string file)
 {
     std::vector<int> HoldOnsetTimeList;
     std::istringstream lineFinder(file);
+    std::string lineIdentifier = "Hold.Onset";
     
     int num;
     std::string lin;
@@ -175,11 +180,11 @@ std::vector<int> dataHolder::getHold_OnsetTime(std::string file)
             break;
         }
         //This is considered as cueOn time
-        while(check(line,"Hold.Onset")==-1 && !lineFinder.eof()) //get first part
+        while(check(line,lineIdentifier)==-1 && !lineFinder.eof()) //get first part
         {
             std::getline(lineFinder, line);
         }
-        if(check(line, "Hold.Onset")!=-1)
+        if(check(line, lineIdentifier)!=-1)
         {
             lin = line;
             num = getNumber(lin);
@@ -195,6 +200,8 @@ std::vector<int> dataHolder::getOff_OnsetTime(std::string file)
     std::istringstream lineFinder(file);
     int num;
     std::string lin;
+    std::string lineIdentifier = "Off.Onset";
+    
     for (std::string line; std::getline(lineFinder, line);)
     {
         //ensures that loop exits at the end of file
@@ -203,11 +210,11 @@ std::vector<int> dataHolder::getOff_OnsetTime(std::string file)
             break;
         }
         //This considered as CueOff time
-        while(check(line,"Off.Onset")==-1 && !lineFinder.eof()) //get first part
+        while(check(line,lineIdentifier)==-1 && !lineFinder.eof()) //get first part
         {
             std::getline(lineFinder, line);
         }
-        if(check(line, "Off.Onset")!=-1)
+        if(check(line, lineIdentifier)!=-1)
         {
             lin = line;
             num = getNumber(lin);
@@ -223,6 +230,8 @@ std::vector<int> dataHolder::getRatePain_OnsetTime(std::string file)
     std::istringstream lineFinder(file);
     int num;
     std::string lin;
+    std::string lineIdentifier = "RatePain";
+    
     for (std::string line; std::getline(lineFinder, line);)
     {
         //ensures loop exits at the end of file
@@ -231,11 +240,11 @@ std::vector<int> dataHolder::getRatePain_OnsetTime(std::string file)
             break;
         }
         //This is when the response is given
-        while(check(line,"RatePain")==-1 && !lineFinder.eof()) //get first part
+        while(check(line,lineIdentifier)==-1 && !lineFinder.eof()) //get first part
         {
             std::getline(lineFinder, line);
         }
-        if(check(line, "RatePain")!=-1)
+        if(check(line, lineIdentifier)!=-1)
         {
             lin = line;
             num = getNumber(lin);
