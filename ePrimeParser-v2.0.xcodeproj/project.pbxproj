@@ -30,7 +30,6 @@
 		F7112CBC223AD7900091EF71 /* dataHolder.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = dataHolder.hpp; sourceTree = "<group>"; };
 		F7112CBE223AD9B20091EF71 /* 020053.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = 020053.txt; sourceTree = "<group>"; };
 		F7112CC1223ADC110091EF71 /* MJC.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = MJC.txt; sourceTree = "<group>"; };
-		F7112CC2223C3D810091EF71 /* MJC2.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = MJC2.txt; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -63,7 +62,6 @@
 		F7112CB3223AD76E0091EF71 /* ePrimeParser-v2.0 */ = {
 			isa = PBXGroup;
 			children = (
-				F7112CC2223C3D810091EF71 /* MJC2.txt */,
 				F7112CC1223ADC110091EF71 /* MJC.txt */,
 				F7112CBE223AD9B20091EF71 /* 020053.txt */,
 				F7112CB4223AD76E0091EF71 /* main.cpp */,

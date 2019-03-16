@@ -5,6 +5,9 @@
 //  Created by Harsha Srikara on 3/14/19.
 //  Copyright © 2019 Harsha Srikara. All rights reserved.
 //
+//This program includes features to remove practice log sessions from the beginning of a log file
+//Will eventually be combined into the original eprime program to avoid having duplicate code
+//Code is for use at the center for brainHealth
 
 #include <iostream>
 #include <sstream>
@@ -132,6 +135,10 @@ std::string removePractice(std::string info)
     
     bool skipPracticeLevel2 = true;
     
+    std::string level2 = "Level: 2";
+    std::string level3 = "Level: 3";
+    std::string level4 = "Level: 4";
+    
     //cycle through all the lines in a string
     for (std::string line; std::getline(lineFinder, line);)
     {
@@ -139,28 +146,28 @@ std::string removePractice(std::string info)
         {
             skipPracticeLevel2 = false;
             //removes the 100 practice sessions at the beginning
-            while(check(line,"Level: 3")==-1)
+            while(check(line,level3)==-1)
             {
                 std::getline(lineFinder, line);
             }
             
             //removes the 4 practice sessions
-            while(check(line,"Level: 2")==-1)
+            while(check(line,level2)==-1)
             {
                 std::getline(lineFinder, line);
             }
             std::getline(lineFinder, line);
-            while(check(line,"Level: 2")==-1)
+            while(check(line,level2)==-1)
             {
                 std::getline(lineFinder, line);
             }
             std::getline(lineFinder, line);
-            while(check(line,"Level: 2")==-1)
+            while(check(line,level2)==-1)
             {
                 std::getline(lineFinder, line);
             }
             std::getline(lineFinder, line);
-            while(check(line,"Level: 2")==-1)
+            while(check(line,level2)==-1)
             {
                 std::getline(lineFinder, line);
             }
