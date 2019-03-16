@@ -7,12 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		F707F0A8222C70FD002B799D /* dataHolder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F707F0A6222C70FD002B799D /* dataHolder.cpp */; };
-		F796FFDF222A077300FADF01 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F796FFDE222A077300FADF01 /* main.cpp */; };
+		F7112CB5223AD76E0091EF71 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F7112CB4223AD76E0091EF71 /* main.cpp */; };
+		F7112CBD223AD7900091EF71 /* dataHolder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F7112CBB223AD7900091EF71 /* dataHolder.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
-		F796FFD9222A077300FADF01 /* CopyFiles */ = {
+		F7112CAF223AD76E0091EF71 /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = /usr/share/man/man1/;
@@ -24,16 +24,17 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		F707F0A6222C70FD002B799D /* dataHolder.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = dataHolder.cpp; sourceTree = "<group>"; };
-		F707F0A7222C70FD002B799D /* dataHolder.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = dataHolder.hpp; sourceTree = "<group>"; };
-		F7112CC0223ADC040091EF71 /* MJC.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = MJC.txt; sourceTree = "<group>"; };
-		F7685E21222A0F3D004A6576 /* 020053.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = 020053.txt; sourceTree = "<group>"; };
-		F796FFDB222A077300FADF01 /* eprimeParser */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = eprimeParser; sourceTree = BUILT_PRODUCTS_DIR; };
-		F796FFDE222A077300FADF01 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
+		F7112CB1223AD76E0091EF71 /* ePrimeParser-v2.0 */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "ePrimeParser-v2.0"; sourceTree = BUILT_PRODUCTS_DIR; };
+		F7112CB4223AD76E0091EF71 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
+		F7112CBB223AD7900091EF71 /* dataHolder.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = dataHolder.cpp; sourceTree = "<group>"; };
+		F7112CBC223AD7900091EF71 /* dataHolder.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = dataHolder.hpp; sourceTree = "<group>"; };
+		F7112CBE223AD9B20091EF71 /* 020053.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = 020053.txt; sourceTree = "<group>"; };
+		F7112CC1223ADC110091EF71 /* MJC.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = MJC.txt; sourceTree = "<group>"; };
+		F7112CC2223C3D810091EF71 /* MJC2.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = MJC2.txt; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		F796FFD8222A077300FADF01 /* Frameworks */ = {
+		F7112CAE223AD76E0091EF71 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -43,99 +44,100 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		F796FFD2222A077300FADF01 = {
+		F7112CA8223AD76E0091EF71 = {
 			isa = PBXGroup;
 			children = (
-				F796FFDD222A077300FADF01 /* eprimeParser */,
-				F796FFDC222A077300FADF01 /* Products */,
+				F7112CB3223AD76E0091EF71 /* ePrimeParser-v2.0 */,
+				F7112CB2223AD76E0091EF71 /* Products */,
 			);
 			sourceTree = "<group>";
 		};
-		F796FFDC222A077300FADF01 /* Products */ = {
+		F7112CB2223AD76E0091EF71 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				F796FFDB222A077300FADF01 /* eprimeParser */,
+				F7112CB1223AD76E0091EF71 /* ePrimeParser-v2.0 */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		F796FFDD222A077300FADF01 /* eprimeParser */ = {
+		F7112CB3223AD76E0091EF71 /* ePrimeParser-v2.0 */ = {
 			isa = PBXGroup;
 			children = (
-				F7112CC0223ADC040091EF71 /* MJC.txt */,
-				F7685E21222A0F3D004A6576 /* 020053.txt */,
-				F796FFDE222A077300FADF01 /* main.cpp */,
-				F707F0A6222C70FD002B799D /* dataHolder.cpp */,
-				F707F0A7222C70FD002B799D /* dataHolder.hpp */,
+				F7112CC2223C3D810091EF71 /* MJC2.txt */,
+				F7112CC1223ADC110091EF71 /* MJC.txt */,
+				F7112CBE223AD9B20091EF71 /* 020053.txt */,
+				F7112CB4223AD76E0091EF71 /* main.cpp */,
+				F7112CBB223AD7900091EF71 /* dataHolder.cpp */,
+				F7112CBC223AD7900091EF71 /* dataHolder.hpp */,
 			);
-			path = eprimeParser;
+			path = "ePrimeParser-v2.0";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		F796FFDA222A077300FADF01 /* eprimeParser */ = {
+		F7112CB0223AD76E0091EF71 /* ePrimeParser-v2.0 */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = F796FFE2222A077300FADF01 /* Build configuration list for PBXNativeTarget "eprimeParser" */;
+			buildConfigurationList = F7112CB8223AD76E0091EF71 /* Build configuration list for PBXNativeTarget "ePrimeParser-v2.0" */;
 			buildPhases = (
-				F796FFD7222A077300FADF01 /* Sources */,
-				F796FFD8222A077300FADF01 /* Frameworks */,
-				F796FFD9222A077300FADF01 /* CopyFiles */,
+				F7112CAD223AD76E0091EF71 /* Sources */,
+				F7112CAE223AD76E0091EF71 /* Frameworks */,
+				F7112CAF223AD76E0091EF71 /* CopyFiles */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 			);
-			name = eprimeParser;
-			productName = eprimeParser;
-			productReference = F796FFDB222A077300FADF01 /* eprimeParser */;
+			name = "ePrimeParser-v2.0";
+			productName = "ePrimeParser-v2.0";
+			productReference = F7112CB1223AD76E0091EF71 /* ePrimeParser-v2.0 */;
 			productType = "com.apple.product-type.tool";
 		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
-		F796FFD3222A077300FADF01 /* Project object */ = {
+		F7112CA9223AD76E0091EF71 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
 				LastUpgradeCheck = 1010;
 				ORGANIZATIONNAME = "Harsha Srikara";
 				TargetAttributes = {
-					F796FFDA222A077300FADF01 = {
+					F7112CB0223AD76E0091EF71 = {
 						CreatedOnToolsVersion = 10.1;
 					};
 				};
 			};
-			buildConfigurationList = F796FFD6222A077300FADF01 /* Build configuration list for PBXProject "eprimeParser" */;
+			buildConfigurationList = F7112CAC223AD76E0091EF71 /* Build configuration list for PBXProject "ePrimeParser-v2.0" */;
 			compatibilityVersion = "Xcode 9.3";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
 			);
-			mainGroup = F796FFD2222A077300FADF01;
-			productRefGroup = F796FFDC222A077300FADF01 /* Products */;
+			mainGroup = F7112CA8223AD76E0091EF71;
+			productRefGroup = F7112CB2223AD76E0091EF71 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				F796FFDA222A077300FADF01 /* eprimeParser */,
+				F7112CB0223AD76E0091EF71 /* ePrimeParser-v2.0 */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXSourcesBuildPhase section */
-		F796FFD7222A077300FADF01 /* Sources */ = {
+		F7112CAD223AD76E0091EF71 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F796FFDF222A077300FADF01 /* main.cpp in Sources */,
-				F707F0A8222C70FD002B799D /* dataHolder.cpp in Sources */,
+				F7112CB5223AD76E0091EF71 /* main.cpp in Sources */,
+				F7112CBD223AD7900091EF71 /* dataHolder.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin XCBuildConfiguration section */
-		F796FFE0222A077300FADF01 /* Debug */ = {
+		F7112CB6223AD76E0091EF71 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -194,7 +196,7 @@
 			};
 			name = Debug;
 		};
-		F796FFE1222A077300FADF01 /* Release */ = {
+		F7112CB7223AD76E0091EF71 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -246,7 +248,7 @@
 			};
 			name = Release;
 		};
-		F796FFE3222A077300FADF01 /* Debug */ = {
+		F7112CB9223AD76E0091EF71 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
@@ -255,7 +257,7 @@
 			};
 			name = Debug;
 		};
-		F796FFE4222A077300FADF01 /* Release */ = {
+		F7112CBA223AD76E0091EF71 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
@@ -267,25 +269,25 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		F796FFD6222A077300FADF01 /* Build configuration list for PBXProject "eprimeParser" */ = {
+		F7112CAC223AD76E0091EF71 /* Build configuration list for PBXProject "ePrimeParser-v2.0" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				F796FFE0222A077300FADF01 /* Debug */,
-				F796FFE1222A077300FADF01 /* Release */,
+				F7112CB6223AD76E0091EF71 /* Debug */,
+				F7112CB7223AD76E0091EF71 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		F796FFE2222A077300FADF01 /* Build configuration list for PBXNativeTarget "eprimeParser" */ = {
+		F7112CB8223AD76E0091EF71 /* Build configuration list for PBXNativeTarget "ePrimeParser-v2.0" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				F796FFE3222A077300FADF01 /* Debug */,
-				F796FFE4222A077300FADF01 /* Release */,
+				F7112CB9223AD76E0091EF71 /* Debug */,
+				F7112CBA223AD76E0091EF71 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
-	rootObject = F796FFD3222A077300FADF01 /* Project object */;
+	rootObject = F7112CA9223AD76E0091EF71 /* Project object */;
 }
