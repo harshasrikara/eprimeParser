@@ -16,6 +16,11 @@
 std::string getData(std::string filename);
 std::string simplifyData(std::string info);
 std::string splitData(std::string &total);
+
+std::string removePractice(std::string info);
+std::string simplifyDataTemp(std::string info);
+std::string splitDataTemp(std::string &info);
+
 int getFirstNumber(std::string str);
 std::string getSubjectNumber(std::string file);
 int func(std::string str);
@@ -32,32 +37,53 @@ int main(int argc, const char * argv[]) {
     std::string file;
     std::getline(std::cin,file);
     
+    bool removePracticeSession = false;
+    
     //exception handling. Actual file opening done by the getData function.
     std::ifstream myReadFile; //input stream
     myReadFile.open(file);
     if(myReadFile)
     {
+        std::string first;
+        std::string last;
+        
         myReadFile.close();
         //calls function to extract data
         std::string extractedData;
         extractedData = getData(file);
         
+        //added feature to eliminate practice sessions at beginning of log
+        if(removePracticeSession)
+        {
+            std::string reducedData;
+            reducedData = removePractice(extractedData);
+            
+            //std::cout<<reducedData<<std::endl;
+            
+            std::string simplifiedData;
+            simplifiedData = simplifyDataTemp(reducedData);
+            
+            //std::cout<<simplifiedData<<std::endl;
+
+            first = splitDataTemp(simplifiedData);
+            last = simplifiedData;
+        }
+        else
+        {
+            //calls function to isolate relevant sections
+            std::string simplfiedData;
+            simplfiedData = simplifyData(extractedData);
+            
+            //std::cout<<simplfiedData<<std::endl;
+            
+            //This splits the two runs into seperate strings.
+            last = splitData(simplfiedData);
+            first = simplfiedData;
+            
+        }
         //std::cout<<extractedData<<std::endl;
         std::string subjectNumber = getSubjectNumber(extractedData);
-        
-        //calls function to isolate relevant sections
-        std::string simplfiedData;
-        simplfiedData = simplifyData(extractedData);
-        
-        //std::cout<<simplfiedData<<std::endl;
-        
-        std::string first;
-        std::string last;
-        
-        //This splits the two runs into seperate strings.
-        last = splitData(simplfiedData);
-        first = simplfiedData;
-        
+    
         //std::cout<<"FIRST"<<first<<std::endl;
         //std::cout<<"\n\n\n\n"<<std::endl;
         //std::cout<<"LAST"<<last<<std::endl;
@@ -218,6 +244,172 @@ std::string splitData(std::string &simplifiedData)
     simplifiedData = first;
     return last;
 }
+
+//The following 3 functions are temporary and will need to be replaced.
+//They will be combined with the existing functions that have the same name
+//This is just to ensure that they work properly
+
+std::string removePractice(std::string info)
+{
+    //converts the string into a stream of characters. Easier to go through line by line.
+    std::istringstream lineFinder(info);
+    std::string output = "";
+    
+    bool skipPracticeLevel2 = true;
+    
+    std::string level2 = "Level: 2";
+    std::string level3 = "Level: 3";
+    std::string level4 = "Level: 4";
+    
+    //cycle through all the lines in a string
+    for (std::string line; std::getline(lineFinder, line);)
+    {
+        if(skipPracticeLevel2)
+        {
+            skipPracticeLevel2 = false;
+            //removes the 100 practice sessions at the beginning
+            while(check(line,level3)==-1)
+            {
+                std::getline(lineFinder, line);
+            }
+            
+            //removes the 4 practice sessions
+            while(check(line,level2)==-1)
+            {
+                std::getline(lineFinder, line);
+            }
+            std::getline(lineFinder, line);
+            while(check(line,level2)==-1)
+            {
+                std::getline(lineFinder, line);
+            }
+            std::getline(lineFinder, line);
+            while(check(line,level2)==-1)
+            {
+                std::getline(lineFinder, line);
+            }
+            std::getline(lineFinder, line);
+            while(check(line,level2)==-1)
+            {
+                std::getline(lineFinder, line);
+            }
+            std::getline(lineFinder, line);
+        }
+        
+        output = output + line + "\n";
+    }
+    return output;
+}
+
+std::string simplifyDataTemp(std::string info)
+{
+    //converts the string into a stream of characters. Easier to go through line by line.
+    std::istringstream lineFinder(info);
+    std::string output = "";
+    
+    bool lvl3 = true;
+    int count =0;
+    //cycle through all the lines in a string
+    for (std::string line; std::getline(lineFinder, line);)
+    {
+        //extracts the very first level 3 data. This is when the participant responds to the cue.
+        if(lvl3)
+        {
+            if(check(line,"Level: 3")!=-1)
+            {
+                lvl3 = !lvl3; //ensures that the extra lvl4 data does not get extracted
+                /*
+                 while(check(line,"Procedure")==-1) //get procedure
+                 {
+                 std::getline(lineFinder, line);
+                 }
+                 output = output + line;
+                 */
+                while(check(line,"RatePain")==-1) //get RatePainOnset
+                {
+                    std::getline(lineFinder, line);
+                }
+                output = output + line + "\n";
+            }
+        }
+        // This extracts each of the level 2 data sets. This contains information on when the cue is presented and removed.
+        if(check(line,"Level: 2")!=-1)
+        {
+            count++;
+            lvl3 = !lvl3;
+            while(check(line,"Procedure")==-1) //get Procedure
+            {
+                std::getline(lineFinder, line);
+            }
+            output = output + line+ "\n";
+            while(check(line,"Hold.OnsetTime")==-1) //get CueOn
+            {
+                std::getline(lineFinder, line);
+            }
+            output = output + line+ "\n";
+            while(check(line,"Off.OnsetTime")==-1) //get CueOff
+            {
+                std::getline(lineFinder, line);
+            }
+            output = output + line+ "\n";
+        }
+        if(check(line,"StartRun1.RTTime")!=-1)
+        {
+            output = output + line+ "\n";
+        }
+        if(check(line,"StartRun2.RTTime")!=-1)
+        {
+            output = output + line+ "\n";
+        }
+        //std::cout<<line<<std::endl; //useful for debug purposes
+    }
+    //std::cout<<count<<std::endl;
+    return output;
+}
+
+std::string splitDataTemp(std::string &info)
+{
+    //converts the string into a stream of characters. Easier to go through line by line.
+    std::istringstream lineFinder(info);
+    std::string output = "";
+    std::string output2 = "";
+    
+    int div = 12;
+    for (std::string line; std::getline(lineFinder, line);)
+    {
+        if(check(line,"RatePain")!=-1)
+        {
+            div = div - 1;
+        }
+        if(div>-1)
+        {
+            if(check(line,"RTTime")==-1)
+            {
+                output = output + line + "\n";
+            }
+        }
+        else
+        {
+            if(check(line,"RTTime")==-1)
+            {
+                output2 = output2 + line + "\n";
+            }
+        }
+        if(check(line,"StartRun1.RTTime")!=-1)
+        {
+            output = output + line + "\n";
+        }
+        if(check(line,"StartRun2.RTTime")!=-1)
+        {
+            output2 = output2 + line + "\n";
+        }
+    }
+    //std::cout<<div<<std::endl;
+    info = output2;
+    return output;
+}
+
+//END OF TEMPORARY FUNCTIONS
 
 //checks to see if one string is a substring of another string (returns index of where substring begins) (-1 if not found)
 int check(std::string row,std::string wordToBeFound)
