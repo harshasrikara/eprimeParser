@@ -108,16 +108,34 @@ int main(int argc, const char * argv[]) {
         std::cout<<"Writing data to .tsv files"<<std::endl;
         std::ofstream myfile;
         std::string trialNumFileName;
-        trialNumFileName ="sub-"+ firstTrial.getUniquePatientId() + "_ses-01_task-run1_bold" +/* std::to_string(firstTrial.getTrialNumber()) +*/ ".tsv";
-        myfile.open (trialNumFileName);
-        myfile << print(firstTrial);
-        myfile.close();
-        
-        trialNumFileName ="sub-"+ lastTrial.getUniquePatientId() + "_ses-01_task-run2_bold" +/* std::to_string(lastTrial.getTrialNumber()) +*/ ".tsv";
-        myfile.open (trialNumFileName);
-        myfile << print(lastTrial);
-        myfile.close();
-        return 0;
+        //specific outputting parameters
+        //can be changed depending on how the file should be outputted
+        if(removePracticeSession)
+        {
+            trialNumFileName ="sub-M8710"+ firstTrial.getUniquePatientId() + "_ses-01_task-MJCue-Run1" +/* std::to_string(firstTrial.getTrialNumber()) +*/ ".tsv";
+            myfile.open (trialNumFileName);
+            myfile << print(firstTrial);
+            myfile.close();
+            
+            trialNumFileName ="sub-M8710"+ lastTrial.getUniquePatientId() + "_ses-01_task-MJCue-Run2" +/* std::to_string(lastTrial.getTrialNumber()) +*/ ".tsv";
+            myfile.open (trialNumFileName);
+            myfile << print(lastTrial);
+            myfile.close();
+            return 0;
+        }
+        else
+        {
+            trialNumFileName ="sub-"+ firstTrial.getUniquePatientId() + "_ses-01_task-run1_bold" +/* std::to_string(firstTrial.getTrialNumber()) +*/ ".tsv";
+            myfile.open (trialNumFileName);
+            myfile << print(firstTrial);
+            myfile.close();
+            
+            trialNumFileName ="sub-"+ lastTrial.getUniquePatientId() + "_ses-01_task-run2_bold" +/* std::to_string(lastTrial.getTrialNumber()) +*/ ".tsv";
+            myfile.open (trialNumFileName);
+            myfile << print(lastTrial);
+            myfile.close();
+            return 0;
+        }
     }
     else //if file opening failed
     {
