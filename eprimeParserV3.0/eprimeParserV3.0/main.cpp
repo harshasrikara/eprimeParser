@@ -12,12 +12,14 @@
 #include <fstream>
 #include <string>
 #include <vector>
+#include "dataHolder.hpp"
 
 
 std::string getData(std::string filename);
 std::string removePracticeSessions(std::string filename);
 std::string simplifyData(std::string info);
 std::string splitData(std::string &total);
+std::string print(dataHolder data);
 
 int getFirstNumber(std::string str);
 std::string getSubjectNumber(std::string file);
@@ -61,9 +63,13 @@ int main(int argc, const char * argv[]) {
         first = splitData(simplifiedData);
         last = simplifiedData;
         
-        std::cout<<"FIRST\n"<<first<<std::endl;
-        std::cout<<"\n\n\n\n"<<std::endl;
-        std::cout<<"LAST\n"<<last<<std::endl;
+        //std::cout<<"FIRST\n"<<first<<std::endl;
+        //std::cout<<"\n\n\n\n"<<std::endl;
+        //std::cout<<"LAST\n"<<last<<std::endl;
+        
+        dataHolder firstTrial(first);
+        print(firstTrial);
+        //printVector(firstTrial.getTarget_OnsetTime());
     }
     else
     {
@@ -84,7 +90,7 @@ std::string getData(std::string filename)
     myReadFile.open(filename);
     if(myReadFile.is_open()) //checks to see if the file opened successfully
     {
-        std::cout<<filename<<" successfully opened"<<std::endl;
+        std::cout<<filename<<" successfully opened\n\n"<<std::endl;
         while(!myReadFile.eof()) // To get you all the lines. eof - end of file
         {
             std::getline(myReadFile,line); // Saves the line in line. Gets one line at a time
@@ -315,4 +321,24 @@ void printVector(std::vector<int> pList)
     {
         std::cout<<pList[i]<<std::endl;
     }
+}
+
+
+std::string print(dataHolder data)
+{
+    std::string output;
+    std::vector<std::string> AnticipateList = data.getAnticipateList();
+    std::vector<std::string> ConditionList = data.getCondition();
+    std::vector<int> TargetOnsetList = data.getTarget_OnsetTime();
+    std::vector<int> AnticipateOnsetList = data.getAnticipate_OnsetTime();
+    std::vector<int> AnticipateDuration = data.getAnticipate_Duration();
+    int TargetDuration = 0;
+    
+    std::cout<<"Onset\tDuration\tTrialType\n"<<std::endl;
+    for(int i =0;i<ConditionList.size();i++)
+    {
+        std::cout<<AnticipateOnsetList[i]<<"\t"<<AnticipateDuration[i]<<"\t"<<AnticipateList[i]<<std::endl;
+        std::cout<<TargetOnsetList[i]<<"\t"<<TargetDuration<<"\t"<<ConditionList[i]<<std::endl;
+    }
+    return "";
 }
