@@ -30,12 +30,13 @@ dataHolder::dataHolder(std::string file) //with file
     Target_OnsetTime = getTarget_OnsetTime(allData); // response
     Target_RTTime = getTarget_RTTime(allData); //0 if miss else number
     Anticipate_Duration = getAnticipate_Duration(allData);
-    //    std::vector<int> Target_Duration = getTarget_Duration(allData);
-    //    std::vector<int> Feedback_Duration = getFeedback_Duration(allData);
-    //    std::vector<int> Feedback_OnsetTime = getFeedback_OnsetTime(allData);
+    Target_Duration = getTarget_Duration(allData);
+    Feedback_Duration = getFeedback_Duration(allData);
+    Feedback_OnsetTime = getFeedback_OnsetTime(allData);
     updateHitMissCondition();
     updateAnticipateList();
 }
+
 dataHolder::dataHolder(std::string file, std::string uniqueId) //with file and 6 digit patient ID
 {
     //initialize variables
@@ -47,14 +48,16 @@ dataHolder::dataHolder(std::string file, std::string uniqueId) //with file and 6
     //startTime = getStartTime(allData);
     
     //create vectors that hold data for each trial
-    ConditionList = getCondition(allData); // neutral/loss/gain
-//    std::vector<int> Anticipate_OnsetTime = getAnticipate_OnsetTime(allData);// anticipate
-//    std::vector<int> Target_OnsetTime =getTarget_OnsetTime(allData); // response
-//    std::vector<int> Target_RTTime = getTarget_RTTime(allData); //0 if miss else number
-//    std::vector<int> Anticipate_Duration = getAnticipate_Duration(allData);
-//    std::vector<int> Target_Duration = getTarget_Duration(allData);
-//    std::vector<int> Feedback_Duration = getFeedback_Duration(allData);
-//    std::vector<int> Feedback_OnsetTime = getFeedback_OnsetTime(allData);
+    ConditionList = getCondition(allData);
+    Anticipate_OnsetTime = getAnticipate_OnsetTime(allData);// anticipate
+    Target_OnsetTime = getTarget_OnsetTime(allData); // response
+    Target_RTTime = getTarget_RTTime(allData); //0 if miss else number
+    Anticipate_Duration = getAnticipate_Duration(allData);
+    Target_Duration = getTarget_Duration(allData);
+    Feedback_Duration = getFeedback_Duration(allData);
+    Feedback_OnsetTime = getFeedback_OnsetTime(allData);
+    updateHitMissCondition();
+    updateAnticipateList();
 }
 
 int dataHolder::getTrialNumber(std::string file)
@@ -140,17 +143,21 @@ std::vector<int> dataHolder::getTarget_OnsetTime() const
 {
     return Target_OnsetTime;
 }
-//std::vector<int> dataHolder::getTarget_RTTime() const
-//{
-//    return Target_RTTime;
-//}
-//std::vector<int> dataHolder::getTarget_RTTime() const
-//{
-//    return Target_RTTime;
-//}
+std::vector<int> dataHolder::getFeedback_OnsetTime() const
+{
+    return Feedback_OnsetTime;
+}
+std::vector<int> dataHolder::getFeedback_Duration() const
+{
+    return Feedback_Duration;
+}
 std::vector<std::string> dataHolder::getAnticipateList() const
 {
     return AnticipateList;
+}
+std::vector<int> dataHolder::getTarget_Duration() const
+{
+    return Target_Duration;
 }
 
 std::vector<std::string> dataHolder::getCondition(std::string file)
@@ -354,38 +361,100 @@ std::vector<int> dataHolder::getAnticipate_Duration(std::string file)
  }
  return TargetOnsetList;
  }
- 
-/*
- std::vector<int> dataHolder::getRatePain_OnsetTime(std::string file)
+
+ std::vector<int> dataHolder::getFeedback_OnsetTime(std::string file)
  {
- std::vector<int> HoldOnsetTimeList;
+ std::vector<int> FeedbackOnsetTimeList;
  std::istringstream lineFinder(file);
  int num;
  std::string lin;
- std::string lineIdentifier = "RatePain";
+ std::string lineIdentifier = "Feedback.OnsetTime";
  
  for (std::string line; std::getline(lineFinder, line);)
  {
- //ensures loop exits at the end of file
- if(lineFinder.eof())
+     //ensures loop exits at the end of file
+     if(lineFinder.eof())
+     {
+         break;
+     }
+     //This is when the response is given
+     while(check(line,lineIdentifier)==-1 && !lineFinder.eof()) //get first part
+     {
+         std::getline(lineFinder, line);
+     }
+     if(check(line, lineIdentifier)!=-1)
+     {
+         lin = line;
+         num = getNumber(lin);
+         FeedbackOnsetTimeList.push_back(num);
+     }
+     }
+     return FeedbackOnsetTimeList;
+ }
+ 
+
+ std::vector<int> dataHolder::getFeedback_Duration(std::string file)
  {
- break;
- }
- //This is when the response is given
- while(check(line,lineIdentifier)==-1 && !lineFinder.eof()) //get first part
+ std::vector<int> FeedbackDurationList;
+ std::istringstream lineFinder(file);
+ int num;
+ std::string lin;
+ std::string lineIdentifier = "FeedbackDuration";
+ 
+ for (std::string line; std::getline(lineFinder, line);)
  {
- std::getline(lineFinder, line);
+     //ensures loop exits at the end of file
+     if(lineFinder.eof())
+     {
+         break;
+     }
+     //This is duration of feedback - 1600
+     while(check(line,lineIdentifier)==-1 && !lineFinder.eof()) //get first part
+     {
+         std::getline(lineFinder, line);
+     }
+     if(check(line, lineIdentifier)!=-1)
+     {
+         lin = line;
+         num = getNumber(lin);
+         FeedbackDurationList.push_back(num);
+         }
+     }
+     return FeedbackDurationList;
  }
- if(check(line, lineIdentifier)!=-1)
+
+
+ std::vector<int> dataHolder::getTarget_Duration(std::string file)
  {
- lin = line;
- num = getNumber(lin);
- HoldOnsetTimeList.push_back(num);
+ std::vector<int> TargetDurationList;
+ std::istringstream lineFinder(file);
+ int num;
+ std::string lin;
+ std::string lineIdentifier = "TargetDuration";
+ 
+ for (std::string line; std::getline(lineFinder, line);)
+ {
+     //ensures loop exits at the end of file
+     if(lineFinder.eof())
+     {
+         break;
+     }
+     //This is when the response is given
+     while(check(line,lineIdentifier)==-1 && !lineFinder.eof()) //get first part
+     {
+         std::getline(lineFinder, line);
+     }
+     if(check(line, lineIdentifier)!=-1)
+     {
+         lin = line;
+         num = getNumber(lin);
+         TargetDurationList.push_back(num);
+     }
  }
+     return TargetDurationList;
  }
- return HoldOnsetTimeList;
- }
- */
+
+
 //gets a number inside a string
 int dataHolder::getNumber(std::string str)
 {

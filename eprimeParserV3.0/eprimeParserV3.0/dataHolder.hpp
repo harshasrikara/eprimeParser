@@ -51,9 +51,9 @@ class dataHolder
     std::vector<int> getTarget_OnsetTime() const;
     std::vector<int> getTarget_RTTime() const;
     std::vector<int> getAnticipate_Duration() const;
-//    std::vector<int> getTarget_Duration() const;
-//    std::vector<int> getFeedback_Duration() const;
-//    std::vector<int> getFeedback_OnsetTime() const;
+    std::vector<int> getTarget_Duration() const;
+    std::vector<int> getFeedback_Duration() const;
+    std::vector<int> getFeedback_OnsetTime() const;
     std::vector<std::string> getAnticipateList() const;
     
     //setters and calculations
@@ -75,9 +75,9 @@ class dataHolder
     std::vector<int> getTarget_OnsetTime(std::string);
     std::vector<int> getTarget_RTTime(std::string);
     std::vector<int> getAnticipate_Duration(std::string);
-//    std::vector<int> getTarget_Duration(std::string);
-//    std::vector<int> getFeedback_Duration(std::string);
-//    std::vector<int> getFeedback_OnsetTime(std::string);
+    std::vector<int> getTarget_Duration(std::string);
+    std::vector<int> getFeedback_Duration(std::string);
+    std::vector<int> getFeedback_OnsetTime(std::string);
 };
 
 #endif /* dataHolder_hpp */

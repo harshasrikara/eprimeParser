@@ -68,8 +68,8 @@ int main(int argc, const char * argv[]) {
         //std::cout<<"LAST\n"<<last<<std::endl;
         
         dataHolder firstTrial(first);
-        print(firstTrial);
-        //printVector(firstTrial.getTarget_OnsetTime());
+        //print(firstTrial);
+        printVector(firstTrial.getTarget_Duration());
     }
     else
     {
