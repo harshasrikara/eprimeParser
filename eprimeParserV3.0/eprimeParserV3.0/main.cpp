@@ -12,6 +12,7 @@
 #include <fstream>
 #include <string>
 #include <vector>
+#include <iomanip>
 #include "dataHolder.hpp"
 
 
@@ -19,7 +20,7 @@ std::string getData(std::string filename);
 std::string removePracticeSessions(std::string filename);
 std::string simplifyData(std::string info);
 std::string splitData(std::string &total);
-std::string print(dataHolder data);
+std::string print(dataHolder data, int st);
 
 int getFirstNumber(std::string str);
 std::string getSubjectNumber(std::string file);
@@ -27,13 +28,20 @@ int func(std::string str);
 int check(std::string row,std::string wordToBeFound);
 void printVector(std::vector<std::string> pList);
 void printVector(std::vector<int> pList);
+std::vector<int> subtractStartOnset(std::vector<int> list, int st);
+
+int getScanStart2(std::string file);
+int getScanStart1(std::string file);
 
 int main(int argc, const char * argv[]) {
+    std::cout << std::endl;
     
     //collecting user input
     std::cout<<"Enter the filename: ";
     std::string file;
     std::getline(std::cin,file);
+    int scanStart1 = 0;
+    int scanStart2 = 0;
     
     //exception handling. Actual file opening done by the getData function.
     std::ifstream myReadFile; //input stream
@@ -53,6 +61,9 @@ int main(int argc, const char * argv[]) {
         std::string removedPracticeSessions;
         removedPracticeSessions = removePracticeSessions(extractedData);
         
+        scanStart1 = getScanStart1(removedPracticeSessions);
+        scanStart2 = getScanStart2(removedPracticeSessions);
+        //std::cout<< scanStart1 <<" " << scanStart2<<std::endl;
         //std::cout<<removedPracticeSessions<<std::endl;
         
         std::string simplifiedData;
@@ -68,8 +79,32 @@ int main(int argc, const char * argv[]) {
         //std::cout<<"LAST\n"<<last<<std::endl;
         
         dataHolder firstTrial(first);
-        print(firstTrial);
-        //printVector(firstTrial.getTarget_Duration());
+        dataHolder lastTrial(last);
+        //print(firstTrial, scanStart1);
+        //print(lastTrial, scanStart2);
+        
+        std::cout<<"Writing data to .tsv files"<<std::endl;
+        std::ofstream myfile;
+        std::string trialNumFileName;
+        //specific outputting parameters
+        //can be changed depending on how the file should be outputted
+            trialNumFileName = "sub-number_ses-01_task-MJCue-Run1.tsv";
+            //+ firstTrial.getUniquePatientId()
+            //+ "_ses-01_task-MJCue-Run1"
+            //+/* std::to_string(firstTrial.getTrialNumber()) +*/ ".tsv";
+            myfile.open (trialNumFileName);
+            myfile << print(firstTrial,scanStart1);
+            myfile.close();
+            
+            trialNumFileName = "sub-number_ses-01_task-MJCue-Run2.tsv";
+            //+ lastTrial.getUniquePatientId()
+            //+ "_ses-01_task-MJCue-Run2"
+            //+/* std::to_string(lastTrial.getTrialNumber()) +*/ ".tsv";
+            myfile.open (trialNumFileName);
+            myfile << print(lastTrial,scanStart2);
+            myfile.close();
+            return 0;
+        
     }
     else
     {
@@ -324,24 +359,83 @@ void printVector(std::vector<int> pList)
 }
 
 
-std::string print(dataHolder data)
+std::string print(dataHolder data, int st)
 {
     std::string output;
     std::vector<std::string> AnticipateList = data.getAnticipateList();
     std::vector<std::string> ConditionList = data.getCondition();
-    std::vector<int> TargetOnsetList = data.getTarget_OnsetTime();
-    std::vector<int> AnticipateOnsetList = data.getAnticipate_OnsetTime();
+    std::vector<int> TargetOnsetList = subtractStartOnset(data.getTarget_OnsetTime(), st);
+    std::vector<int> AnticipateOnsetList = subtractStartOnset(data.getAnticipate_OnsetTime(), st);
     std::vector<int> AnticipateDuration = data.getAnticipate_Duration();
     std::vector<int> FeedBackDuration = data.getFeedback_Duration();
     std::vector<int> TargetDuration = data.getTarget_Duration();
-    std::vector<int> FeedbackOnset = data.getFeedback_OnsetTime();
+    std::vector<int> FeedbackOnset = subtractStartOnset(data.getFeedback_OnsetTime(), st);
     
     
-    std::cout<<"Onset\tDuration\tTrialType\n"<<std::endl;
+//    std::cout<<"Onset\tDuration\tTrialType"<<std::endl;
+//    for(int i =0;i<ConditionList.size();i++)
+//    {
+//        std::cout<<(double)AnticipateOnsetList[i]/1000<<"\t"<<(double)AnticipateDuration[i]/1000<<"\t\t"<<AnticipateList[i]<<std::endl;
+//        std::cout<<(double)TargetOnsetList[i]/1000<<"\t"<<((double)FeedbackOnset[i]/1000)-((double)TargetOnsetList[i]/1000)+((double)FeedBackDuration[i]/1000)<<"\t\t"<<ConditionList[i]<<std::endl;
+//    }
+    output+="Onset\tDuration\tTrialType\n";
     for(int i =0;i<ConditionList.size();i++)
     {
-        std::cout<<(double)AnticipateOnsetList[i]/1000<<"\t"<<(double)AnticipateDuration[i]/1000<<"\t"<<AnticipateList[i]<<std::endl;
-        std::cout<<(double)TargetOnsetList[i]/1000<<"\t"<<(double)TargetDuration[i]/1000<<"\t\t"<<ConditionList[i]<<std::endl;
+        output+=std::to_string((double)AnticipateOnsetList[i]/1000)+"\t"+std::to_string((double)AnticipateDuration[i]/1000)+"\t"+AnticipateList[i]+"\n";
+        output+=std::to_string((double)TargetOnsetList[i]/1000)+"\t"+std::to_string(((double)FeedbackOnset[i]/1000)-((double)TargetOnsetList[i]/1000)+((double)FeedBackDuration[i]/1000))+"\t"+ConditionList[i]+"\n";
     }
-    return "";
+    std::cout<<output<<std::endl;
+    return output;
+}
+
+int getScanStart2(std::string file)
+{
+    //adds file into a stream of data
+    std::istringstream lineFinder(file);
+    std::string lastLine;
+    std::string lineIdentifier = "ScanStart2.RTTime:";
+    
+    //goes through the data line by line
+    for (std::string line; std::getline(lineFinder, line);)
+    {
+        //RTTime is considered as the start time for trials
+        while(check(line,lineIdentifier)==-1) //get first part
+        {
+            std::getline(lineFinder, line);
+        }
+        lastLine = line;
+        //gets the RTTime - eg. StartTun1.RTTime: 12345678
+        return func(lastLine);
+    }
+    return -1;
+}
+int getScanStart1(std::string file)
+{
+    //adds file into a stream of data
+    std::istringstream lineFinder(file);
+    std::string lastLine;
+    std::string lineIdentifier = "ScanStart1.RTTime:";
+    
+    //goes through the data line by line
+    for (std::string line; std::getline(lineFinder, line);)
+    {
+        //RTTime is considered as the start time for trials
+        while(check(line,lineIdentifier)==-1) //get first part
+        {
+            std::getline(lineFinder, line);
+        }
+        lastLine = line;
+        //gets the RTTime - eg. StartTun1.RTTime: 12345678
+        return func(lastLine);
+    }
+    return -1;
+}
+
+std::vector<int> subtractStartOnset(std::vector<int> list, int st)
+{
+    for(int i = 0;i<list.size();i++)
+    {
+        list[i] = list[i] - st;
+    }
+    return list;
 }
