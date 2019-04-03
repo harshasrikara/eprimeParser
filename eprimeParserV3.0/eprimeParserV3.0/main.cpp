@@ -68,8 +68,8 @@ int main(int argc, const char * argv[]) {
         //std::cout<<"LAST\n"<<last<<std::endl;
         
         dataHolder firstTrial(first);
-        //print(firstTrial);
-        printVector(firstTrial.getTarget_Duration());
+        print(firstTrial);
+        //printVector(firstTrial.getTarget_Duration());
     }
     else
     {
@@ -332,13 +332,16 @@ std::string print(dataHolder data)
     std::vector<int> TargetOnsetList = data.getTarget_OnsetTime();
     std::vector<int> AnticipateOnsetList = data.getAnticipate_OnsetTime();
     std::vector<int> AnticipateDuration = data.getAnticipate_Duration();
-    int TargetDuration = 0;
+    std::vector<int> FeedBackDuration = data.getFeedback_Duration();
+    std::vector<int> TargetDuration = data.getTarget_Duration();
+    std::vector<int> FeedbackOnset = data.getFeedback_OnsetTime();
+    
     
     std::cout<<"Onset\tDuration\tTrialType\n"<<std::endl;
     for(int i =0;i<ConditionList.size();i++)
     {
-        std::cout<<AnticipateOnsetList[i]<<"\t"<<AnticipateDuration[i]<<"\t"<<AnticipateList[i]<<std::endl;
-        std::cout<<TargetOnsetList[i]<<"\t"<<TargetDuration<<"\t"<<ConditionList[i]<<std::endl;
+        std::cout<<(double)AnticipateOnsetList[i]/1000<<"\t"<<(double)AnticipateDuration[i]/1000<<"\t"<<AnticipateList[i]<<std::endl;
+        std::cout<<(double)TargetOnsetList[i]/1000<<"\t"<<(double)TargetDuration[i]/1000<<"\t\t"<<ConditionList[i]<<std::endl;
     }
     return "";
 }
