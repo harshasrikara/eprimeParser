@@ -29,12 +29,13 @@ dataHolder::dataHolder(std::string file) //with file
     Anticipate_OnsetTime = getAnticipate_OnsetTime(allData);// anticipate
     Target_OnsetTime = getTarget_OnsetTime(allData); // response
     Target_RTTime = getTarget_RTTime(allData); //0 if miss else number
+    Target_RT = getTarget_RT(allData);
     Anticipate_Duration = getAnticipate_Duration(allData);
     Target_Duration = getTarget_Duration(allData);
     Feedback_Duration = getFeedback_Duration(allData);
     Feedback_OnsetTime = getFeedback_OnsetTime(allData);
-    updateHitMissCondition();
     updateAnticipateList();
+    updateHitMissCondition();
 }
 
 dataHolder::dataHolder(std::string file, std::string uniqueId) //with file and 6 digit patient ID
@@ -159,6 +160,11 @@ std::vector<int> dataHolder::getTarget_Duration() const
 {
     return Target_Duration;
 }
+std::vector<int> dataHolder::getTarget_RT() const
+{
+    return Target_RT;
+}
+
 
 std::vector<std::string> dataHolder::getCondition(std::string file)
 {
@@ -258,7 +264,7 @@ void dataHolder::updateHitMissCondition()
 {
     for(int i = 0;i<ConditionList.size();i++)
     {
-        ConditionList[i] = ConditionList[i]+"_"+hit_miss(Target_RTTime[i]);
+        ConditionList[i] = hit_miss(Target_RTTime[i]) + "_"+ ConditionList[i];
     }
 }
 
@@ -293,11 +299,42 @@ std::vector<int> dataHolder::getAnticipate_OnsetTime(std::string file)
     return AnticipateOnsetTimeList;
 }
 
+std::vector<int> dataHolder::getTarget_RT(std::string file)
+{
+    std::vector<int> TargetRTList;
+    std::istringstream lineFinder(file);
+    int num;
+    std::string lin;
+    std::string lineIdentifier = "Target.RT:";
+    
+    for (std::string line; std::getline(lineFinder, line);)
+    {
+        //ensures that loop exits at the end of file
+        if(lineFinder.eof())
+        {
+            break;
+        }
+        //This considered as Anticipate.OnsetTime time
+        while(check(line,lineIdentifier)==-1 && !lineFinder.eof()) //get first part
+        {
+            std::getline(lineFinder, line);
+        }
+        if(check(line, lineIdentifier)!=-1)
+        {
+            lin = line;
+            num = getNumber(lin);
+            TargetRTList.push_back(num);
+        }
+    }
+    //std::cout<<AnticipateOnsetTimeList.size()<<" - Anticipate.OnsetTime"<<std::endl;
+    return TargetRTList;
+}
+
 void dataHolder::updateAnticipateList()
 {
     for(int i = 0;i<ConditionList.size();i++)
     {
-        AnticipateList.push_back("Anticipation_"+ConditionList[i]);
+        AnticipateList.push_back("Antic_"+ConditionList[i]);
     }
 }
 

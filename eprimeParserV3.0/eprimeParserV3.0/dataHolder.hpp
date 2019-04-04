@@ -28,6 +28,7 @@ class dataHolder
     std::vector<int> Anticipate_OnsetTime;// anticipate
     std::vector<int> Target_OnsetTime; // response
     std::vector<int> Target_RTTime; //0 if miss else number
+    std::vector<int> Target_RT; //0 if miss else number
     std::vector<int> Anticipate_Duration;
     std::vector<int> Target_Duration;
     std::vector<int> Feedback_Duration;
@@ -50,6 +51,7 @@ class dataHolder
     std::vector<int> getAnticipate_OnsetTime() const;
     std::vector<int> getTarget_OnsetTime() const;
     std::vector<int> getTarget_RTTime() const;
+    std::vector<int> getTarget_RT() const;
     std::vector<int> getAnticipate_Duration() const;
     std::vector<int> getTarget_Duration() const;
     std::vector<int> getFeedback_Duration() const;
@@ -74,6 +76,7 @@ class dataHolder
     std::vector<int> getAnticipate_OnsetTime(std::string);
     std::vector<int> getTarget_OnsetTime(std::string);
     std::vector<int> getTarget_RTTime(std::string);
+    std::vector<int> getTarget_RT(std::string);
     std::vector<int> getAnticipate_Duration(std::string);
     std::vector<int> getTarget_Duration(std::string);
     std::vector<int> getFeedback_Duration(std::string);

@@ -37,7 +37,7 @@ int main(int argc, const char * argv[]) {
     std::cout << std::endl;
     
     //collecting user input
-    std::cout<<"Enter the filename: ";
+    std::cout<<"Enter the subjectID: ";
     std::string file;
     std::getline(std::cin,file);
     int scanStart1 = 0;
@@ -45,7 +45,7 @@ int main(int argc, const char * argv[]) {
     
     //exception handling. Actual file opening done by the getData function.
     std::ifstream myReadFile; //input stream
-    myReadFile.open(file);
+    myReadFile.open("m.txt");
     if(myReadFile)
     {
         std::string first;
@@ -80,15 +80,19 @@ int main(int argc, const char * argv[]) {
         
         dataHolder firstTrial(first);
         dataHolder lastTrial(last);
+        
+        printVector(firstTrial.getTarget_Duration());
         //print(firstTrial, scanStart1);
         //print(lastTrial, scanStart2);
+        if(/* DISABLES CODE */ (true))
+        {
         
         std::cout<<"Writing data to .tsv files"<<std::endl;
         std::ofstream myfile;
         std::string trialNumFileName;
         //specific outputting parameters
         //can be changed depending on how the file should be outputted
-            trialNumFileName = "sub-number_ses-01_task-MJCue-Run1.tsv";
+            trialNumFileName = "sub-M"+file+"_ses-01_task-MID-Run1.tsv";
             //+ firstTrial.getUniquePatientId()
             //+ "_ses-01_task-MJCue-Run1"
             //+/* std::to_string(firstTrial.getTrialNumber()) +*/ ".tsv";
@@ -96,7 +100,7 @@ int main(int argc, const char * argv[]) {
             myfile << print(firstTrial,scanStart1);
             myfile.close();
             
-            trialNumFileName = "sub-number_ses-01_task-MJCue-Run2.tsv";
+            trialNumFileName = "sub-M"+file+"_ses-01_task-MID-Run2.tsv";
             //+ lastTrial.getUniquePatientId()
             //+ "_ses-01_task-MJCue-Run2"
             //+/* std::to_string(lastTrial.getTrialNumber()) +*/ ".tsv";
@@ -104,6 +108,7 @@ int main(int argc, const char * argv[]) {
             myfile << print(lastTrial,scanStart2);
             myfile.close();
             return 0;
+        }
         
     }
     else
@@ -122,7 +127,7 @@ std::string getData(std::string filename)
     std::ifstream myReadFile; //input stream
     
     //opens the input stream with the txt file
-    myReadFile.open(filename);
+    myReadFile.open("m.txt");
     if(myReadFile.is_open()) //checks to see if the file opened successfully
     {
         std::cout<<filename<<" successfully opened\n\n"<<std::endl;
@@ -201,6 +206,10 @@ std::string simplifyData(std::string info)
             output = output + line+ "\n";
         }
         if(check(line,"Target.RTTime")!=-1) //get Procedure
+        {
+            output = output + line+ "\n";
+        }
+        if(check(line,"Target.RT:")!=-1) //get Procedure
         {
             output = output + line+ "\n";
         }
@@ -369,6 +378,7 @@ std::string print(dataHolder data, int st)
     std::vector<int> AnticipateDuration = data.getAnticipate_Duration();
     std::vector<int> FeedBackDuration = data.getFeedback_Duration();
     std::vector<int> TargetDuration = data.getTarget_Duration();
+    std::vector<int> TargetRT = data.getTarget_RT();
     std::vector<int> FeedbackOnset = subtractStartOnset(data.getFeedback_OnsetTime(), st);
     
     
@@ -381,8 +391,16 @@ std::string print(dataHolder data, int st)
     output+="Onset\tDuration\tTrialType\n";
     for(int i =0;i<ConditionList.size();i++)
     {
+       if(check(ConditionList[i],"Miss")!=-1)
+       {       output+=std::to_string((double)AnticipateOnsetList[i]/1000)+"\t"+std::to_string((double)AnticipateDuration[i]/1000)+"\t"+AnticipateList[i]+"\n";
+        output+=std::to_string((double)TargetOnsetList[i]/1000)+"\t"+std::to_string(((double)TargetDuration[i]/1000)+((double)FeedBackDuration[i]/1000))+"\t"+ConditionList[i]+"\n";
+       }
+       else
+       {
         output+=std::to_string((double)AnticipateOnsetList[i]/1000)+"\t"+std::to_string((double)AnticipateDuration[i]/1000)+"\t"+AnticipateList[i]+"\n";
-        output+=std::to_string((double)TargetOnsetList[i]/1000)+"\t"+std::to_string(((double)FeedbackOnset[i]/1000)-((double)TargetOnsetList[i]/1000)+((double)FeedBackDuration[i]/1000))+"\t"+ConditionList[i]+"\n";
+           
+           output+=std::to_string((double)TargetOnsetList[i]/1000)+"\t"+std::to_string(((double)TargetRT[i]/1000)+((double)FeedBackDuration[i]/1000))+"\t"+ConditionList[i]+"\n";
+       }
     }
     std::cout<<output<<std::endl;
     return output;
