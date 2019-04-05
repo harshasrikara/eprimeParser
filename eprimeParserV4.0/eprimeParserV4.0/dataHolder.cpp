@@ -40,6 +40,7 @@ dataHolder::dataHolder(std::string file) //with file
 
 dataHolder::dataHolder(std::string file, std::string uniqueId) //with file and 6 digit patient ID
 {
+    /*
     //initialize variables
     allData = file;
     uniquePatientId = uniqueId;
@@ -59,6 +60,7 @@ dataHolder::dataHolder(std::string file, std::string uniqueId) //with file and 6
     Feedback_OnsetTime = getFeedback_OnsetTime(allData);
     updateHitMissCondition();
     updateAnticipateList();
+     */
 }
 
 int dataHolder::getTrialNumber(std::string file)

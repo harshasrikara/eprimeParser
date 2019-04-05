@@ -19,7 +19,9 @@
 std::string getData(std::string filename);
 std::string removePracticeSessions(std::string filename);
 std::string simplifyData(std::string info);
-std::string splitData(std::string &total);
+std::string splitData1(std::string total);
+std::string splitData2(std::string total);
+std::string splitData3(std::string total);
 std::string print(dataHolder data, int st);
 
 int getFirstNumber(std::string str);
@@ -30,20 +32,22 @@ void printVector(std::vector<std::string> pList);
 void printVector(std::vector<int> pList);
 std::vector<int> subtractStartOnset(std::vector<int> list, int st);
 
+int getScanStart3(std::string file);
 int getScanStart2(std::string file);
 int getScanStart1(std::string file);
 
 int main(int argc, const char * argv[]) {
     std::cout << std::endl;
     std::string file= "";
-    while(file!="exit")
+    while(file!="sst.txt")
     {
     
-    //collecting user input
-    std::cout<<"Enter the filename ";
-    std::getline(std::cin,file);
-    int scanStart1 = 0;
-    int scanStart2 = 0;
+        //collecting user input
+        std::cout<<"Enter the filename ";
+        std::getline(std::cin,file);
+        int scanStart1 = 0;
+        int scanStart2 = 0;
+        int scanStart3 = 0;
         if(file == "exit")
         {
             return 0;
@@ -55,7 +59,8 @@ int main(int argc, const char * argv[]) {
     if(myReadFile)
     {
         std::string first;
-        std::string last;
+        std::string second;
+        std::string third;
         
         myReadFile.close();
         //calls function to extract data
@@ -69,7 +74,8 @@ int main(int argc, const char * argv[]) {
         
         scanStart1 = getScanStart1(removedPracticeSessions);
         scanStart2 = getScanStart2(removedPracticeSessions);
-        //std::cout<< scanStart1 <<" " << scanStart2<<std::endl;
+        scanStart3 = getScanStart3(removedPracticeSessions);
+        //std::cout << scanStart1 << " " << scanStart2 << " " << scanStart3 << std::endl;
         //std::cout<<removedPracticeSessions<<std::endl;
         
         std::string simplifiedData;
@@ -77,20 +83,26 @@ int main(int argc, const char * argv[]) {
         
         //std::cout<<simplifiedData<<std::endl;
         
-        first = splitData(simplifiedData);
-        last = simplifiedData;
+        first = splitData1(simplifiedData);
+        second = splitData2(simplifiedData);
+        third = splitData3(simplifiedData);
+        
+        //std::cout<<first<<std::endl;
+        //std::cout<<"\n\n\n\n"<<std::endl;
+        //std::cout<<second<<std::endl;
+        std::cout<<third<<std::endl;
         
         //std::cout<<"FIRST\n"<<first<<std::endl;
         //std::cout<<"\n\n\n\n"<<std::endl;
         //std::cout<<"LAST\n"<<last<<std::endl;
         
-        dataHolder firstTrial(first);
-        dataHolder lastTrial(last);
+        //dataHolder firstTrial(first);
+        //dataHolder lastTrial(last);
         
         //printVector(firstTrial.getTarget_Duration());
         //print(firstTrial, scanStart1);
         //print(lastTrial, scanStart2);
-        if(/* DISABLES CODE */ (true))
+        if(/* DISABLES CODE */ (false))
         {
         
         std::cout<<"Writing data to .tsv files"<<std::endl;
@@ -98,20 +110,28 @@ int main(int argc, const char * argv[]) {
         std::string trialNumFileName;
         //specific outputting parameters
         //can be changed depending on how the file should be outputted
-            trialNumFileName = file.substr(0,13)+"_ses-01_task-MID-Run1.tsv";
+            trialNumFileName = file.substr(0,13)+"_ses-01_task-SST-Run1.tsv";
             //+ firstTrial.getUniquePatientId()
             //+ "_ses-01_task-MJCue-Run1"
             //+/* std::to_string(firstTrial.getTrialNumber()) +*/ ".tsv";
             myfile.open (trialNumFileName);
-            myfile << print(firstTrial,scanStart1);
+//            myfile << print(firstTrial,scanStart1);
             myfile.close();
             
-            trialNumFileName = file.substr(0,13)+"_ses-01_task-MID-Run2.tsv";
+            trialNumFileName = file.substr(0,13)+"_ses-01_task-SST-Run2.tsv";
             //+ lastTrial.getUniquePatientId()
             //+ "_ses-01_task-MJCue-Run2"
             //+/* std::to_string(lastTrial.getTrialNumber()) +*/ ".tsv";
             myfile.open (trialNumFileName);
-            myfile << print(lastTrial,scanStart2);
+//            myfile << print(secondTrial,scanStart2);
+            myfile.close();
+            
+            trialNumFileName = file.substr(0,13)+"_ses-01_task-SST-Run3.tsv";
+            //+ lastTrial.getUniquePatientId()
+            //+ "_ses-01_task-MJCue-Run2"
+            //+/* std::to_string(lastTrial.getTrialNumber()) +*/ ".tsv";
+            myfile.open (trialNumFileName);
+//            myfile << print(thirdTrial,scanStart3);
             myfile.close();
             //return 0;
         }
@@ -172,7 +192,7 @@ std::string removePracticeSessions(std::string info)
         if(skipPracticeLevel2)
         {
             skipPracticeLevel2 = false;
-            for(int i =0;i<7;i++)
+            for(int i =0;i<12;i++)
             {
                 //removes the 7 practice sessions
                 while(check(line,level2)==-1)
@@ -201,74 +221,155 @@ std::string simplifyData(std::string info)
     //cycle through all the lines in a string
     for (std::string line; std::getline(lineFinder, line);)
     {
-        if(check(line,"Condition")!=-1) //get Procedure
+        if(check(line,"Procedure:")!=-1) //get Procedure
         {
             output = output + line+ "\n";
+            std::getline(lineFinder, line);
         }
-        if(check(line,"Anticipate.OnsetTime")!=-1) //get Procedure
+        if(check(line,"GoFix.OnsetTime")!=-1 || check(line,"StopFix.OnsetTime")!=-1) //get onset
         {
             output = output + line+ "\n";
+            std::getline(lineFinder, line);
         }
-        if(check(line,"Target.OnsetTime")!=-1) //get Procedure
+        if(check(line,"GoTarget.ACC:")!=-1 || check(line,"StopTarget.ACC:")!=-1) //get hit/miss
         {
             output = output + line+ "\n";
+            std::getline(lineFinder, line);
         }
-        if(check(line,"Target.RTTime")!=-1) //get Procedure
-        {
-            output = output + line+ "\n";
-        }
-        if(check(line,"Target.RT:")!=-1) //get Procedure
-        {
-            output = output + line+ "\n";
-        }
-        if(check(line,"AnticipateDuration")!=-1) //get Procedure
-        {
-            output = output + line+ "\n";
-        }
-        if(check(line,"TargetDuration")!=-1) //get Procedure
-        {
-            output = output + line+ "\n";
-        }
-        if(check(line,"FeedbackDuration")!=-1) //get Procedure
-        {
-            output = output + line+ "\n";
-        }
-        if(check(line,"Feedback.OnsetTime")!=-1) //get Procedure
+        if(check(line,"GoBlank.OnsetTime")!=-1 || check(line,"StopBlank.OnsetTime")!=-1) //get response
         {
             output = output + line+ "\n\n";
+            std::getline(lineFinder, line);
         }
+        /*
+        if(check(line,"ScanStart1.RTTime:")!=-1) //get Procedure
+        {
+            output = output + line+ "\n";
+        }
+        if(check(line,"ScanStart2.RTTime:")!=-1) //get Procedure
+        {
+            output = output + line+ "\n";
+        }
+        if(check(line,"ScanStart3.RTTime:")!=-1) //get Procedure
+        {
+            output = output + line+ "\n";
+        }
+        */
         //std::cout<<line<<std::endl; //useful for debug purposes
     }
     return output;
 }
 
-std::string splitData(std::string &info)
+std::string splitData1(std::string total)
 {
+    int div = 128;
     //converts the string into a stream of characters. Easier to go through line by line.
-    std::istringstream lineFinder(info);
+    std::istringstream lineFinder(total);
     std::string output = "";
-    std::string output2 = "";
-    int div = 72;
+    
+    //cycle through all the lines in a string
+    for (std::string line; std::getline(lineFinder, line);)
+    {
+        output = output + line + "\n";
+        if(check(line,"GoBlank.OnsetTime")!=-1 || check(line,"StopBlank.OnsetTime")!=-1) //get Procedure
+        {
+            div--;
+        }
+        //output = output + line;
+        if(div == 0)
+        {
+            break;
+        }
+        //std::cout<<line<<std::endl; //useful for debug purposes
+    }
+    return output;
+}
+std::string splitData2(std::string total)
+{
+    int div = 128;
+    int div2 = 128;
+    //converts the string into a stream of characters. Easier to go through line by line.
+    std::istringstream lineFinder(total);
+    std::string output = "";
     
     for (std::string line; std::getline(lineFinder, line);)
     {
-        if(check(line,"Condition")!=-1)
+        if(check(line,"GoBlank.OnsetTime")!=-1 || check(line,"StopBlank.OnsetTime")!=-1) //get Procedure
         {
-            div = div - 1;
+            div--;
         }
-        if(div>-1)
+        //output = output + line;
+        if(div==0)
         {
-                output = output + line + "\n";
+            std::getline(lineFinder, line);
         }
-        else
+        while(div == 0)
         {
-                output2 = output2 + line + "\n";
+            output = output + line + "\n";
+            if(check(line,"GoBlank.OnsetTime")!=-1 || check(line,"StopBlank.OnsetTime")!=-1) //get Procedure
+            {
+                div2--;
+            }
+            if(div2 == 0)
+            {
+                return output;
+            }
+            std::getline(lineFinder, line);
         }
+        //std::cout<<line<<std::endl; //useful for debug purposes
     }
-    info = output2;
     return output;
 }
-
+std::string splitData3(std::string total)
+{
+    int div = 128;
+    int div2 = 128;
+    int div3 = 128;
+    //converts the string into a stream of characters. Easier to go through line by line.
+    std::istringstream lineFinder(total);
+    std::string output = "";
+    
+    for (std::string line; std::getline(lineFinder, line);)
+    {
+        if(check(line,"GoBlank.OnsetTime")!=-1 || check(line,"StopBlank.OnsetTime")!=-1) //get Procedure
+        {
+            div--;
+        }
+        //output = output + line;
+        if(div==0)
+        {
+            std::getline(lineFinder, line);
+        }
+        while(div == 0)
+        {
+            //output = output + line + "\n";
+            if(check(line,"GoBlank.OnsetTime")!=-1 || check(line,"StopBlank.OnsetTime")!=-1) //get Procedure
+            {
+                div2--;
+            }
+            if(div2==0)
+            {
+                std::getline(lineFinder, line);
+            }
+            while(div2 == 0)
+            {
+                output = output + line + "\n";
+                if(check(line,"GoBlank.OnsetTime")!=-1 || check(line,"StopBlank.OnsetTime")!=-1) //get Procedure
+                {
+                    div3--;
+                }
+                if(div3==0)
+                {
+                    return output;
+                }
+                std::getline(lineFinder, line);
+            }
+            std::getline(lineFinder, line);
+        }
+        //std::cout<<line<<std::endl; //useful for debug purposes
+    }
+    return output;
+}
 
 //helper functions
 //checks to see if one string is a substring of another string (returns index of where substring begins) (-1 if not found)
@@ -412,6 +513,27 @@ std::string print(dataHolder data, int st)
     }
     std::cout<<output<<std::endl;
     return output;
+}
+int getScanStart3(std::string file)
+{
+    //adds file into a stream of data
+    std::istringstream lineFinder(file);
+    std::string lastLine;
+    std::string lineIdentifier = "ScanStart3.RTTime:";
+    
+    //goes through the data line by line
+    for (std::string line; std::getline(lineFinder, line);)
+    {
+        //RTTime is considered as the start time for trials
+        while(check(line,lineIdentifier)==-1) //get first part
+        {
+            std::getline(lineFinder, line);
+        }
+        lastLine = line;
+        //gets the RTTime - eg. StartTun1.RTTime: 12345678
+        return func(lastLine);
+    }
+    return -1;
 }
 
 int getScanStart2(std::string file)

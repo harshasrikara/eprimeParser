@@ -6,6 +6,11 @@
 	objectVersion = 50;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		F7C451132257F52C007EEE04 /* dataHolder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F7C451102257F52C007EEE04 /* dataHolder.cpp */; };
+		F7C451142257F52C007EEE04 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F7C451112257F52C007EEE04 /* main.cpp */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXCopyFilesBuildPhase section */
 		F7C451042257F454007EEE04 /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
@@ -20,6 +25,10 @@
 
 /* Begin PBXFileReference section */
 		F7C451062257F454007EEE04 /* eprimeParserV4.0 */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = eprimeParserV4.0; sourceTree = BUILT_PRODUCTS_DIR; };
+		F7C451102257F52C007EEE04 /* dataHolder.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = dataHolder.cpp; sourceTree = "<group>"; };
+		F7C451112257F52C007EEE04 /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
+		F7C451122257F52C007EEE04 /* dataHolder.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = dataHolder.hpp; sourceTree = "<group>"; };
+		F7C451152257F548007EEE04 /* sst.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = sst.txt; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -52,6 +61,10 @@
 		F7C451082257F454007EEE04 /* eprimeParserV4.0 */ = {
 			isa = PBXGroup;
 			children = (
+				F7C451152257F548007EEE04 /* sst.txt */,
+				F7C451102257F52C007EEE04 /* dataHolder.cpp */,
+				F7C451122257F52C007EEE04 /* dataHolder.hpp */,
+				F7C451112257F52C007EEE04 /* main.cpp */,
 			);
 			path = eprimeParserV4.0;
 			sourceTree = "<group>";
@@ -112,6 +125,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F7C451142257F52C007EEE04 /* main.cpp in Sources */,
+				F7C451132257F52C007EEE04 /* dataHolder.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
