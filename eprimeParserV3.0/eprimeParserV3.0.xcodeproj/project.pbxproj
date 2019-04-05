@@ -24,13 +24,12 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		F7C450FB2257E26E007EEE04 /* m.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = m.txt; sourceTree = "<group>"; };
+		F7C450FC2257E26E007EEE04 /* sub-M87100706_MID.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "sub-M87100706_MID.txt"; sourceTree = "<group>"; };
 		F7CBCBAC224EA86B003492DC /* dataHolder.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = dataHolder.cpp; sourceTree = "<group>"; };
 		F7CBCBAD224EA86B003492DC /* dataHolder.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = dataHolder.hpp; sourceTree = "<group>"; };
-		F7CBCBAF224EBC1F003492DC /* mid3.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = mid3.txt; sourceTree = "<group>"; };
-		F7CBCBB0224EBC1F003492DC /* mid2.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = mid2.txt; sourceTree = "<group>"; };
 		F7E1A013224D359C00CF1826 /* eprimeParserV3.0 */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = eprimeParserV3.0; sourceTree = BUILT_PRODUCTS_DIR; };
 		F7E1A016224D359C00CF1826 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
-		F7E1A01D224D389A00CF1826 /* mid.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = mid.txt; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -63,11 +62,10 @@
 		F7E1A015224D359C00CF1826 /* eprimeParserV3.0 */ = {
 			isa = PBXGroup;
 			children = (
-				F7CBCBB0224EBC1F003492DC /* mid2.txt */,
-				F7CBCBAF224EBC1F003492DC /* mid3.txt */,
+				F7C450FB2257E26E007EEE04 /* m.txt */,
+				F7C450FC2257E26E007EEE04 /* sub-M87100706_MID.txt */,
 				F7CBCBAC224EA86B003492DC /* dataHolder.cpp */,
 				F7CBCBAD224EA86B003492DC /* dataHolder.hpp */,
-				F7E1A01D224D389A00CF1826 /* mid.txt */,
 				F7E1A016224D359C00CF1826 /* main.cpp */,
 			);
 			path = eprimeParserV3.0;

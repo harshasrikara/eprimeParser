@@ -35,13 +35,19 @@ int getScanStart1(std::string file);
 
 int main(int argc, const char * argv[]) {
     std::cout << std::endl;
+    std::string file= "";
+    while(file!="exit")
+    {
     
     //collecting user input
     std::cout<<"Enter the filename ";
-    std::string file;
     std::getline(std::cin,file);
     int scanStart1 = 0;
     int scanStart2 = 0;
+        if(file == "exit")
+        {
+            return 0;
+        }
     
     //exception handling. Actual file opening done by the getData function.
     std::ifstream myReadFile; //input stream
@@ -92,7 +98,7 @@ int main(int argc, const char * argv[]) {
         std::string trialNumFileName;
         //specific outputting parameters
         //can be changed depending on how the file should be outputted
-            trialNumFileName = "sub-M"+file+"_ses-01_task-MID-Run1.tsv";
+            trialNumFileName = file.substr(0,13)+"_ses-01_task-MID-Run1.tsv";
             //+ firstTrial.getUniquePatientId()
             //+ "_ses-01_task-MJCue-Run1"
             //+/* std::to_string(firstTrial.getTrialNumber()) +*/ ".tsv";
@@ -100,14 +106,14 @@ int main(int argc, const char * argv[]) {
             myfile << print(firstTrial,scanStart1);
             myfile.close();
             
-            trialNumFileName = "sub-M"+file+"_ses-01_task-MID-Run2.tsv";
+            trialNumFileName = file.substr(0,13)+"_ses-01_task-MID-Run2.tsv";
             //+ lastTrial.getUniquePatientId()
             //+ "_ses-01_task-MJCue-Run2"
             //+/* std::to_string(lastTrial.getTrialNumber()) +*/ ".tsv";
             myfile.open (trialNumFileName);
             myfile << print(lastTrial,scanStart2);
             myfile.close();
-            return 0;
+            //return 0;
         }
         
     }
@@ -116,7 +122,9 @@ int main(int argc, const char * argv[]) {
         myReadFile.close();
         std::cout<<file<<" failed to open"<<std::endl;
     }
+    }
     return 0;
+    
 }
 
 std::string getData(std::string filename)
