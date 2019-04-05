@@ -37,7 +37,7 @@ int main(int argc, const char * argv[]) {
     std::cout << std::endl;
     
     //collecting user input
-    std::cout<<"Enter the subjectID: ";
+    std::cout<<"Enter the filename ";
     std::string file;
     std::getline(std::cin,file);
     int scanStart1 = 0;
@@ -45,7 +45,7 @@ int main(int argc, const char * argv[]) {
     
     //exception handling. Actual file opening done by the getData function.
     std::ifstream myReadFile; //input stream
-    myReadFile.open("m.txt");
+    myReadFile.open(file);
     if(myReadFile)
     {
         std::string first;
@@ -81,7 +81,7 @@ int main(int argc, const char * argv[]) {
         dataHolder firstTrial(first);
         dataHolder lastTrial(last);
         
-        printVector(firstTrial.getTarget_Duration());
+        //printVector(firstTrial.getTarget_Duration());
         //print(firstTrial, scanStart1);
         //print(lastTrial, scanStart2);
         if(/* DISABLES CODE */ (true))
@@ -127,7 +127,7 @@ std::string getData(std::string filename)
     std::ifstream myReadFile; //input stream
     
     //opens the input stream with the txt file
-    myReadFile.open("m.txt");
+    myReadFile.open(filename);
     if(myReadFile.is_open()) //checks to see if the file opened successfully
     {
         std::cout<<filename<<" successfully opened\n\n"<<std::endl;
