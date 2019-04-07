@@ -259,11 +259,11 @@ std::vector<int> dataHolder::getTarget_ACC(std::string file)
 
 std::vector<int> dataHolder::getBlank_Onset(std::string file)
 {
-    std::vector<int> blankOnsetList;
+    std::vector<int> targetACCList;
     std::istringstream lineFinder(file);
     int num;
     std::string lin;
-    std::string lineIdentifier = "Blank.Onset:";
+    std::string lineIdentifier = "Blank";
     
     for (std::string line; std::getline(lineFinder, line);)
     {
@@ -281,11 +281,11 @@ std::vector<int> dataHolder::getBlank_Onset(std::string file)
         {
             lin = line;
             num = getNumber(lin);
-            blankOnsetList.push_back(num);
+            targetACCList.push_back(num);
         }
     }
     //std::cout<<AnticipateOnsetTimeList.size()<<" - Anticipate.OnsetTime"<<std::endl;
-    return blankOnsetList;
+    return targetACCList;
 }
 
 //gets a number inside a string
