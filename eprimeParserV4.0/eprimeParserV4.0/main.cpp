@@ -87,19 +87,18 @@ int main(int argc, const char * argv[]) {
         second = splitData2(simplifiedData);
         third = splitData3(simplifiedData);
         
-        //std::cout<<first<<std::endl;
+        std::cout<<first<<std::endl;
         //std::cout<<"\n\n\n\n"<<std::endl;
         //std::cout<<second<<std::endl;
-        std::cout<<third<<std::endl;
-        
-        //std::cout<<"FIRST\n"<<first<<std::endl;
         //std::cout<<"\n\n\n\n"<<std::endl;
-        //std::cout<<"LAST\n"<<last<<std::endl;
+        //std::cout<<third<<std::endl;
         
-        //dataHolder firstTrial(first);
-        //dataHolder lastTrial(last);
+        dataHolder firstTrial(first);
+        //dataHolder secondTrial(second);
+        //dataHolder thirdTrial(third);
         
-        //printVector(firstTrial.getTarget_Duration());
+        printVector(firstTrial.getProcedure());
+        printVector(firstTrial.getBlank_Onset());
         //print(firstTrial, scanStart1);
         //print(lastTrial, scanStart2);
         if(/* DISABLES CODE */ (false))
@@ -112,7 +111,7 @@ int main(int argc, const char * argv[]) {
         //can be changed depending on how the file should be outputted
             trialNumFileName = file.substr(0,13)+"_ses-01_task-SST-Run1.tsv";
             //+ firstTrial.getUniquePatientId()
-            //+ "_ses-01_task-MJCue-Run1"
+            //+ "_ses-01_task-SST-Run1"
             //+/* std::to_string(firstTrial.getTrialNumber()) +*/ ".tsv";
             myfile.open (trialNumFileName);
 //            myfile << print(firstTrial,scanStart1);
@@ -120,16 +119,16 @@ int main(int argc, const char * argv[]) {
             
             trialNumFileName = file.substr(0,13)+"_ses-01_task-SST-Run2.tsv";
             //+ lastTrial.getUniquePatientId()
-            //+ "_ses-01_task-MJCue-Run2"
-            //+/* std::to_string(lastTrial.getTrialNumber()) +*/ ".tsv";
+            //+ "_ses-01_task-SST-Run2"
+            //+/* std::to_string(secondTrial.getTrialNumber()) +*/ ".tsv";
             myfile.open (trialNumFileName);
 //            myfile << print(secondTrial,scanStart2);
             myfile.close();
             
             trialNumFileName = file.substr(0,13)+"_ses-01_task-SST-Run3.tsv";
             //+ lastTrial.getUniquePatientId()
-            //+ "_ses-01_task-MJCue-Run2"
-            //+/* std::to_string(lastTrial.getTrialNumber()) +*/ ".tsv";
+            //+ "_ses-01_task-SST-Run2"
+            //+/* std::to_string(thirdTrial.getTrialNumber()) +*/ ".tsv";
             myfile.open (trialNumFileName);
 //            myfile << print(thirdTrial,scanStart3);
             myfile.close();
@@ -476,31 +475,19 @@ void printVector(std::vector<int> pList)
     }
 }
 
-
+/*
 std::string print(dataHolder data, int st)
 {
     std::string output;
-    std::vector<std::string> AnticipateList = data.getAnticipateList();
-    std::vector<std::string> ConditionList = data.getCondition();
-    std::vector<int> TargetOnsetList = subtractStartOnset(data.getTarget_OnsetTime(), st);
-    std::vector<int> AnticipateOnsetList = subtractStartOnset(data.getAnticipate_OnsetTime(), st);
-    std::vector<int> AnticipateDuration = data.getAnticipate_Duration();
-    std::vector<int> FeedBackDuration = data.getFeedback_Duration();
-    std::vector<int> TargetDuration = data.getTarget_Duration();
-    std::vector<int> TargetRT = data.getTarget_RT();
-    std::vector<int> FeedbackOnset = subtractStartOnset(data.getFeedback_OnsetTime(), st);
-    
-    
-//    std::cout<<"Onset\tDuration\tTrialType"<<std::endl;
-//    for(int i =0;i<ConditionList.size();i++)
-//    {
-//        std::cout<<(double)AnticipateOnsetList[i]/1000<<"\t"<<(double)AnticipateDuration[i]/1000<<"\t\t"<<AnticipateList[i]<<std::endl;
-//        std::cout<<(double)TargetOnsetList[i]/1000<<"\t"<<((double)FeedbackOnset[i]/1000)-((double)TargetOnsetList[i]/1000)+((double)FeedBackDuration[i]/1000)<<"\t\t"<<ConditionList[i]<<std::endl;
-//    }
+    std::vector<std::string> Procedure = data.getProcedure();
+    std::vector<int> TFix_Onset = subtractStartOnset(data.getFix_Onset(), st);
+    std::vector<int> Blank_Onset = subtractStartOnset(data.getBlank_Onset(), st);
+    std::vector<int> TargetACC = data.getTaregtACC();
+ 
     output+="Onset\tDuration\tTrialType\n";
     for(int i =0;i<ConditionList.size();i++)
     {
-       if(check(ConditionList[i],"Miss")!=-1)
+       if(check(Procedure[i],"Miss")!=-1)
        {       output+=std::to_string((double)AnticipateOnsetList[i]/1000)+"\t"+std::to_string((double)AnticipateDuration[i]/1000)+"\t"+AnticipateList[i]+"\n";
         output+=std::to_string((double)TargetOnsetList[i]/1000)+"\t"+std::to_string(((double)TargetDuration[i]/1000)+((double)FeedBackDuration[i]/1000))+"\t"+ConditionList[i]+"\n";
        }
@@ -514,6 +501,7 @@ std::string print(dataHolder data, int st)
     std::cout<<output<<std::endl;
     return output;
 }
+ */
 int getScanStart3(std::string file)
 {
     //adds file into a stream of data
