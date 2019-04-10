@@ -136,6 +136,11 @@ std::vector<int> dataHolder::getBlank_Onset() const
 {
     return BlankOnset;
 }
+/*
+std::vector<int> dataHolder::getSSDTone_ACC() const
+{
+    return SSDTone_ACC;
+}*/
 
 std::vector<std::string> dataHolder::getProcedure(std::string file)
 {
@@ -206,6 +211,18 @@ std::vector<int> dataHolder::getFix_Onset(std::string file)
     return FixOnsetList;
 }
 
+std::string dataHolder::SSDhit_miss(int tarACC)
+{
+    if(tarACC==0)
+    {
+        return "Hit";
+    }
+    else
+    {
+        return "Miss";
+    }
+}
+
 std::string dataHolder::hit_miss(int tarACC)
 {
     if(tarACC==0)
@@ -222,7 +239,14 @@ void dataHolder::updateHitMissCondition()
 {
     for(int i = 0;i<Procedure.size();i++)
     {
-        Procedure[i] = hit_miss(TargetACC[i]) + "_" + Procedure[i];
+        if(check(Procedure[i],"Go")!=-1)
+        {
+            Procedure[i] = hit_miss(TargetACC[i]) + "_" + Procedure[i];
+        }
+        else
+        {
+            Procedure[i] = SSDhit_miss(TargetACC[i]) + "_" + Procedure[i];
+        }
     }
 }
 
@@ -242,16 +266,21 @@ std::vector<int> dataHolder::getTarget_ACC(std::string file)
             break;
         }
         //This considered as Anticipate.OnsetTime time
-        while(check(line,lineIdentifier)==-1 && !lineFinder.eof()) //get first part
+        while(check(line,lineIdentifier)==-1 && check(line,"SSDTone.RT:")==-1) //get first part
         {
+            if(lineFinder.eof())
+            {
+                break;
+            }
             std::getline(lineFinder, line);
         }
-        if(check(line, lineIdentifier)!=-1)
-        {
+//        if(check(line, lineIdentifier)!=-1)
+//        {
+            
             lin = line;
             num = getNumber(lin);
             targetACCList.push_back(num);
-        }
+//        }
     }
     //std::cout<<AnticipateOnsetTimeList.size()<<" - Anticipate.OnsetTime"<<std::endl;
     return targetACCList;

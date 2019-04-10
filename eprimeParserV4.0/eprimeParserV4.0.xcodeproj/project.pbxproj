@@ -24,6 +24,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		F7B5CA5F225AA4AC009921E8 /* stt.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = stt.txt; sourceTree = "<group>"; };
+		F7B5CA60225AA877009921E8 /* sub-M87163838_SST.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "sub-M87163838_SST.txt"; sourceTree = "<group>"; };
 		F7C451062257F454007EEE04 /* eprimeParserV4.0 */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = eprimeParserV4.0; sourceTree = BUILT_PRODUCTS_DIR; };
 		F7C451102257F52C007EEE04 /* dataHolder.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = dataHolder.cpp; sourceTree = "<group>"; };
 		F7C451112257F52C007EEE04 /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
@@ -61,6 +63,8 @@
 		F7C451082257F454007EEE04 /* eprimeParserV4.0 */ = {
 			isa = PBXGroup;
 			children = (
+				F7B5CA60225AA877009921E8 /* sub-M87163838_SST.txt */,
+				F7B5CA5F225AA4AC009921E8 /* stt.txt */,
 				F7C451152257F548007EEE04 /* sst.txt */,
 				F7C451102257F52C007EEE04 /* dataHolder.cpp */,
 				F7C451122257F52C007EEE04 /* dataHolder.hpp */,

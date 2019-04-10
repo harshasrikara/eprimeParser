@@ -31,6 +31,7 @@ int check(std::string row,std::string wordToBeFound);
 void printVector(std::vector<std::string> pList);
 void printVector(std::vector<int> pList);
 std::vector<int> subtractStartOnset(std::vector<int> list, int st);
+void printVector(std::vector<std::string> pList, std::vector<int> pList2);
 
 int getScanStart3(std::string file);
 int getScanStart2(std::string file);
@@ -99,18 +100,18 @@ int main(int argc, const char * argv[]) {
         dataHolder secondTrial(second);
         dataHolder thirdTrial(third);
         
-        //printVector(firstTrial.getFix_Onset());
-        //printVector(firstTrial.getBlank_Onset());
+        //printVector(firstTrial.getProcedure(),firstTrial.getTarget_ACC());
+        //printVector(firstTrial.getTarget_ACC());
         //print(firstTrial, scanStart1);
         //print(lastTrial, scanStart2);
         if(/* DISABLES CODE */ (true))
         {
-        
-        std::cout<<"Writing data to .tsv files"<<std::endl;
-        std::ofstream myfile;
-        std::string trialNumFileName;
-        //specific outputting parameters
-        //can be changed depending on how the file should be outputted
+            
+            std::cout<<"Writing data to .tsv files"<<std::endl;
+            std::ofstream myfile;
+            std::string trialNumFileName;
+            //specific outputting parameters
+            //can be changed depending on how the file should be outputted
             std::cout<<"Writing out trial1"<<std::endl;
             trialNumFileName = file.substr(0,13)+"_ses-01_task-SST-Run1.tsv";
             //+ firstTrial.getUniquePatientId()
@@ -235,7 +236,7 @@ std::string simplifyData(std::string info)
             output = output + line+ "\n";
             std::getline(lineFinder, line);
         }
-        if(check(line,"GoTarget.ACC:")!=-1 || check(line,"StopTarget.ACC:")!=-1) //get hit/miss
+        if(check(line,"GoTarget.ACC:")!=-1 || check(line,"SSDTone.RT: ")!=-1) //get hit/miss
         {
             output = output + line+ "\n";
             std::getline(lineFinder, line);
@@ -245,6 +246,7 @@ std::string simplifyData(std::string info)
             output = output + line+ "\n\n";
             std::getline(lineFinder, line);
         }
+        
         /*
         if(check(line,"ScanStart1.RTTime:")!=-1) //get Procedure
         {
@@ -477,6 +479,15 @@ void printVector(std::vector<int> pList)
     for(int i =0;i<pList.size();i++)
     {
         std::cout<<pList[i]<<std::endl;
+    }
+}
+void printVector(std::vector<std::string> pList, std::vector<int> pList2)
+{
+    for(int i =0;i<pList.size();i++)
+    {
+        std::cout<<pList[i]<<std::endl;
+        std::cout<<pList2[i]<<std::endl;
+        std::cout<<std::endl;
     }
 }
 

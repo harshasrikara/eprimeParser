@@ -27,6 +27,7 @@ class dataHolder
     std::vector<int> FixOnset;// anticipate
     std::vector<int> BlankOnset; // response
     std::vector<int> TargetACC; //0 if miss else number
+    //std::vector<int> SSDTone_ACC; //unused
     
     public:
     //constructors
@@ -45,11 +46,13 @@ class dataHolder
     std::vector<int> getFix_Onset() const;
     std::vector<int> getTarget_ACC() const;
     std::vector<int> getBlank_Onset() const;
+    //std::vector<int> getSSDTone_ACC() const;
     
     //setters and calculations
     int getTrialNumber(std::string); //done
     int getStartTime(std::string); //done
     std::string hit_miss(int);
+    std::string SSDhit_miss(int);
     void updateHitMissCondition();
     
     //search and extract functions(common values)
@@ -62,6 +65,7 @@ class dataHolder
     std::vector<int> getFix_Onset(std::string);
     std::vector<int> getTarget_ACC(std::string);
     std::vector<int> getBlank_Onset(std::string);
+    //std::vector<int> getSSDTone_ACC(std::string);
 };
 
 #endif /* dataHolder_hpp */
