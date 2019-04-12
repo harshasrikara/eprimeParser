@@ -29,6 +29,7 @@
 		F78583CB225FB80A00784B08 /* dataHolder.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = dataHolder.hpp; sourceTree = "<group>"; };
 		F78583CC225FB80A00784B08 /* dataHolder.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = dataHolder.cpp; sourceTree = "<group>"; };
 		F78583CD225FB80A00784B08 /* sub-M87100885_NICSMELL.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "sub-M87100885_NICSMELL.txt"; sourceTree = "<group>"; };
+		F79606F5226048540063D979 /* list.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = list.txt; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -61,6 +62,7 @@
 		F78583C3225FB76100784B08 /* EprimeParseV5.0 */ = {
 			isa = PBXGroup;
 			children = (
+				F79606F5226048540063D979 /* list.txt */,
 				F78583C4225FB76100784B08 /* main.cpp */,
 				F78583CB225FB80A00784B08 /* dataHolder.hpp */,
 				F78583CC225FB80A00784B08 /* dataHolder.cpp */,

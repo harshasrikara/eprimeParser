@@ -39,102 +39,107 @@ int main(int argc, const char * argv[]) {
     std::cout << std::endl;
     std::string file= "";
     
+    std::string listOfFiles = getData("list.txt");
     
-    while(file!="sub-M87100885_NICSMELL.txt")
-    {
-    
+        std::istringstream lineFinder(listOfFiles);
+        
+        //cycle through all the lines in a string
+        for (std::string line; std::getline(lineFinder, line);)
+        {
+            file = line;
         //collecting user input
-        std::cout<<"Enter the filename ";
-        std::getline(std::cin,file);
+        //std::cout<<"Enter the filename ";
+        //std::getline(std::cin,file);
         int scanStart1 = 0;
         int scanStart2 = 0;
         if(file == "exit")
         {
             return 0;
         }
-    
-    //exception handling. Actual file opening done by the getData function.
-    std::ifstream myReadFile; //input stream
-    myReadFile.open(file);
-    if(myReadFile)
-    {
-        std::string first;
-        std::string second;
         
-        myReadFile.close();
-        //calls function to extract data
-        std::string extractedData;
-        extractedData = getData(file);
-        
-        //std::cout<<extractedData<<std::endl;
-        
-        std::string removedPracticeSessions;
-        removedPracticeSessions = removePracticeSessions(extractedData);
-        
-        scanStart1 = getScanStart1(removedPracticeSessions);
-        scanStart2 = getScanStart2(removedPracticeSessions);
-        //std::cout << scanStart1 << " " << scanStart2 << std::endl;
-        //std::cout<<removedPracticeSessions<<std::endl;
-        
-        
-        
-        std::string simplifiedData;
-        simplifiedData = simplifyData(removedPracticeSessions);
-        
-        //std::cout<<simplifiedData<<std::endl;
-        
-        first = splitData1(simplifiedData);
-        second = splitData2(simplifiedData);
-        
-        //std::cout<<first<<std::endl;
-        //std::cout<<"\n\n\n\n"<<std::endl;
-        //std::cout<<second<<std::endl;
-        //std::cout<<"\n\n\n\n"<<std::endl;
-        //std::cout<<third<<std::endl;
-        
-        dataHolder firstTrial(first);
-        dataHolder secondTrial(second);
-        
-        //printVector(firstTrial.getProcedure(),firstTrial.getOnset());
-        //printVector(secondTrial.getProcedure(),secondTrial.getOnset());
-        print(firstTrial, scanStart1);
-        //print(lastTrial, scanStart2);
-        if(/* DISABLES CODE */ (false))
+        //exception handling. Actual file opening done by the getData function.
+        std::ifstream myReadFile; //input stream
+        myReadFile.open(file);
+        if(myReadFile)
         {
+            std::string first;
+            std::string second;
             
-            std::cout<<"Writing data to .tsv files"<<std::endl;
-            std::ofstream myfile;
-            std::string trialNumFileName;
-            //specific outputting parameters
-            //can be changed depending on how the file should be outputted
-            std::cout<<"Writing out trial1"<<std::endl;
-            trialNumFileName = file.substr(0,13)+"_ses-01_task-SST-Run1.tsv";
-            //+ firstTrial.getUniquePatientId()
-            //+ "_ses-01_task-SST-Run1"
-            //+/* std::to_string(firstTrial.getTrialNumber()) +*/ ".tsv";
-            myfile.open (trialNumFileName);
-            //myfile << print(firstTrial,scanStart1);
-            myfile.close();
+            myReadFile.close();
+            //calls function to extract data
+            std::string extractedData;
+            extractedData = getData(file);
             
-            std::cout<<"Writing out trial2"<<std::endl;
-            trialNumFileName = file.substr(0,13)+"_ses-01_task-SST-Run2.tsv";
-            //+ lastTrial.getUniquePatientId()
-            //+ "_ses-01_task-SST-Run2"
-            //+/* std::to_string(secondTrial.getTrialNumber()) +*/ ".tsv";
-            myfile.open (trialNumFileName);
-            //myfile << print(secondTrial,scanStart2);
-            myfile.close();
+            //std::cout<<extractedData<<std::endl;
             
-            //return 0;
+            std::string removedPracticeSessions;
+            removedPracticeSessions = removePracticeSessions(extractedData);
+            
+            scanStart1 = getScanStart1(removedPracticeSessions);
+            scanStart2 = getScanStart2(removedPracticeSessions);
+            //std::cout << scanStart1 << " " << scanStart2 << std::endl;
+            //std::cout<<removedPracticeSessions<<std::endl;
+            
+            
+            
+            std::string simplifiedData;
+            simplifiedData = simplifyData(removedPracticeSessions);
+            
+            //std::cout<<simplifiedData<<std::endl;
+            
+            first = splitData1(simplifiedData);
+            second = splitData2(simplifiedData);
+            
+            //std::cout<<first<<std::endl;
+            //std::cout<<"\n\n\n\n"<<std::endl;
+            //std::cout<<second<<std::endl;
+            //std::cout<<"\n\n\n\n"<<std::endl;
+            //std::cout<<third<<std::endl;
+            
+            dataHolder firstTrial(first);
+            dataHolder secondTrial(second);
+            
+            //printVector(firstTrial.getProcedure(),firstTrial.getOnset());
+            //printVector(secondTrial.getProcedure(),secondTrial.getOnset());
+            //print(firstTrial, scanStart1);
+            //print(lastTrial, scanStart2);
+            if(/* DISABLES CODE */ (true))
+            {
+                
+                std::cout<<"Writing data to .tsv files"<<std::endl;
+                std::ofstream myfile;
+                std::string trialNumFileName;
+                //specific outputting parameters
+                //can be changed depending on how the file should be outputted
+                std::cout<<"Writing out trial1"<<std::endl;
+                trialNumFileName = file.substr(0,13)+"_ses-01_task-NICSMELL-Run1.tsv";
+                //+ firstTrial.getUniquePatientId()
+                //+ "_ses-01_task-SST-Run1"
+                //+/* std::to_string(firstTrial.getTrialNumber()) +*/ ".tsv";
+                myfile.open (trialNumFileName);
+                myfile << print(firstTrial,scanStart1);
+                myfile.close();
+                
+                std::cout<<"Writing out trial2"<<std::endl;
+                trialNumFileName = file.substr(0,13)+"_ses-01_task-NICSMELL-Run2.tsv";
+                //+ lastTrial.getUniquePatientId()
+                //+ "_ses-01_task-SST-Run2"
+                //+/* std::to_string(secondTrial.getTrialNumber()) +*/ ".tsv";
+                myfile.open (trialNumFileName);
+                myfile << print(secondTrial,scanStart2);
+                myfile.close();
+                
+                //return 0;
+            }
+            
         }
-        
+        else
+        {
+            myReadFile.close();
+            std::cout<<file<<" failed to open"<<std::endl;
+        }
     }
-    else
-    {
-        myReadFile.close();
-        std::cout<<file<<" failed to open"<<std::endl;
-    }
-    }
+    
     return 0;
     
 }
