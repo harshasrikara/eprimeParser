@@ -27,7 +27,6 @@ dataHolder::dataHolder(std::string file) //with file
     //create vectors that hold data for each trial
     Procedure = getProcedure(allData);
     Onset = getOnset(allData);
-    //updateHitMissCondition();
 }
 
 dataHolder::dataHolder(std::string file, std::string uniqueId) //with file and 6 digit patient ID
