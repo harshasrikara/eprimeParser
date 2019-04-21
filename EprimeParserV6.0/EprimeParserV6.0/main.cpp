@@ -1,8 +1,8 @@
 //
 //  main.cpp
-//  eprimeParserV3.0
-//
-//  Created by Harsha Srikara on 3/28/19.
+//  eprimeParserV6.0
+//  Handles GUSTO files
+//  Created by Harsha Srikara on 3/28/19. ?? Update date. Copied file.
 //  Copyright © 2019 Harsha Srikara. All rights reserved.
 //
 
