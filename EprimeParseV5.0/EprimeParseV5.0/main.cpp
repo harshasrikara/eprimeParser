@@ -1,7 +1,7 @@
 //
 //  main.cpp
-//  eprimeParserV3.0
-//
+//  eprimeParserV5.0
+//  NICSMELL parser
 //  Created by Harsha Srikara on 3/28/19.
 //  Copyright © 2019 Harsha Srikara. All rights reserved.
 //
