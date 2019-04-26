@@ -50,8 +50,10 @@ int main(int argc, const char * argv[]) {
         //collecting user input
         //std::cout<<"Enter the filename ";
         //std::getline(std::cin,file);
+            
         int scanStart1 = 0;
         int scanStart2 = 0;
+            
         if(file == "exit")
         {
             return 0;
@@ -75,13 +77,8 @@ int main(int argc, const char * argv[]) {
             std::string removedPracticeSessions;
             removedPracticeSessions = removePracticeSessions(extractedData);
             
-            //scanStart1 = getScanStart1(removedPracticeSessions);
-            //scanStart2 = getScanStart2(removedPracticeSessions);
-            //std::cout << scanStart1 << " " << scanStart2 << std::endl;
-            std::cout<<removedPracticeSessions<<std::endl;
-            
-            /*
-            
+            //std::cout<<removedPracticeSessions<<std::endl;
+
             std::string simplifiedData;
             simplifiedData = simplifyData(removedPracticeSessions);
             
@@ -93,17 +90,20 @@ int main(int argc, const char * argv[]) {
             //std::cout<<first<<std::endl;
             //std::cout<<"\n\n\n\n"<<std::endl;
             //std::cout<<second<<std::endl;
-            //std::cout<<"\n\n\n\n"<<std::endl;
-            //std::cout<<third<<std::endl;
+            
+            scanStart1 = getScanStart1(second);
+            scanStart2 = getScanStart2(second);
+            //std::cout << scanStart1 << " " << scanStart2 << std::endl;
+            
             
             dataHolder firstTrial(first);
             dataHolder secondTrial(second);
-            */
+            
             //printVector(firstTrial.getProcedure(),firstTrial.getOnset());
             //printVector(secondTrial.getProcedure(),secondTrial.getOnset());
             //print(firstTrial, scanStart1);
             //print(lastTrial, scanStart2);
-            if(/* DISABLES CODE */ (false))
+            if(/* DISABLES CODE */ (true))
             {
                 
                 std::cout<<"Writing data to .tsv files"<<std::endl;
@@ -117,7 +117,7 @@ int main(int argc, const char * argv[]) {
                 //+ "_ses-01_task-SST-Run1"
                 //+/* std::to_string(firstTrial.getTrialNumber()) +*/ ".tsv";
                 myfile.open (trialNumFileName);
-                //myfile << print(firstTrial,scanStart1);
+                myfile << print(firstTrial,scanStart1);
                 myfile.close();
                 
                 std::cout<<"Writing out trial2"<<std::endl;
@@ -126,7 +126,7 @@ int main(int argc, const char * argv[]) {
                 //+ "_ses-01_task-SST-Run2"
                 //+/* std::to_string(secondTrial.getTrialNumber()) +*/ ".tsv";
                 myfile.open (trialNumFileName);
-                //myfile << print(secondTrial,scanStart2);
+                myfile << print(secondTrial,scanStart2);
                 myfile.close();
                 
                 //return 0;
@@ -201,10 +201,10 @@ std::string removePracticeSessions(std::string info)
             {
                 std::getline(lineFinder, line);
             }
-            while(check(line,level3)==-1)
-            {
-                std::getline(lineFinder, line);
-            }
+            //while(check(line,level3)==-1)
+            //{
+              //  std::getline(lineFinder, line);
+            //}
         }
         
         output = output + line + "\n";
@@ -214,46 +214,35 @@ std::string removePracticeSessions(std::string info)
 
 std::string simplifyData(std::string info)
 {
-    bool lvl4 = true;
-    //converts the string into a stream of characters. Easier to go through line by line.
     std::istringstream lineFinder(info);
     std::string output = "";
     
     //cycle through all the lines in a string
     for (std::string line; std::getline(lineFinder, line);)
     {
-        if(lvl4)
+        if(check(line,"Taste1.OnsetTime:")!=-1)
         {
-            if(check(line,"Level: 3")!=-1)
-            {
-                lvl4 = !lvl4; //ensures that the extra lvl4 data does not get extracted
-                
-                while(check(line,"Procedure")==-1) //get procedure
-                {
-                     std::getline(lineFinder, line);
-                }
-                output = output + line;
-                while(check(line,"RatePain.Onset")==-1) //get RatePainOnset
-                {
-                    std::getline(lineFinder, line);
-                }
-                output = output + line + "\n";
-            }
+            output = output + line +"\n";
         }
-        // This extracts each of the level 3 data sets. This contains information on when the cue is presented and removed.
-        if(check(line,"Level: 2")!=-1)
+        if(check(line,"Rest.OnsetTime:")!=-1)
         {
-            lvl4 = !lvl4;
-            while(check(line,"Procedure")==-1) //get Procedure
-            {
-                std::getline(lineFinder, line);
-            }
-            output = output + line+ "\n";
-            while(check(line,"StimReady.OnsetTime:")==-1) //get CueOn
-            {
-                std::getline(lineFinder, line);
-            }
-            output = output + line+ "\n";
+            output = output + line +"\n";
+        }
+        if(check(line,"Rest.OffsetTime:")!=-1)
+        {
+            output = output + line +"\n";
+        }
+        if(check(line,"TasteName:")!=-1)
+        {
+            output = output + line +"\n";
+        }
+        if(check(line,"StartScreen.RTTime:")!=-1)
+        {
+            output = output + line +"\n";
+        }
+        if(check(line,"NextRun.RTTime:")!=-1)
+        {
+            output = output + line +"\n";
         }
     }
     return output;
@@ -261,7 +250,7 @@ std::string simplifyData(std::string info)
 
 std::string splitData1(std::string total)
 {
-    int div = 24;
+    int div = 12;
     //converts the string into a stream of characters. Easier to go through line by line.
     std::istringstream lineFinder(total);
     std::string output = "";
@@ -270,7 +259,7 @@ std::string splitData1(std::string total)
     for (std::string line; std::getline(lineFinder, line);)
     {
         output = output + line + "\n";
-        if(check(line,"OnsetTime")!=-1) //get Procedure
+        if(check(line,"TasteN")!=-1) //get Procedure
         {
             div--;
         }
@@ -285,15 +274,15 @@ std::string splitData1(std::string total)
 }
 std::string splitData2(std::string total)
 {
-    int div = 24;
-    int div2 = 24;
+    int div = 12;
+    int div2 = 12;
     //converts the string into a stream of characters. Easier to go through line by line.
     std::istringstream lineFinder(total);
     std::string output = "";
     
     for (std::string line; std::getline(lineFinder, line);)
     {
-        if(check(line,"OnsetTime")!=-1) //get Procedure
+        if(check(line,"TasteN")!=-1) //get Procedure
         {
             div--;
         }
@@ -305,7 +294,7 @@ std::string splitData2(std::string total)
         while(div == 0)
         {
             output = output + line + "\n";
-            if(check(line,"OnsetTime")!=-1) //get Procedure
+            if(check(line,"TasteN")!=-1) //get Procedure
             {
                 div2--;
             }
@@ -439,20 +428,17 @@ void printVector(std::vector<std::string> pList, std::vector<int> pList2)
 std::string print(dataHolder data, int st)
 {
     std::string output;
-    std::vector<std::string> Procedure = data.getProcedure();
-    std::vector<int> Onset = subtractStartOnset(data.getOnset(), st);
+    std::vector<std::string> Taste_Name = data.getTasteName();
+    std::vector<int> taste_Onset = subtractStartOnset(data.getTaste_Onset(), st);
+    std::vector<int> rest_Onset = subtractStartOnset(data.getRest_Onset(), st);
+    std::vector<int> rest_Offset = subtractStartOnset(data.getRest_Offset(), st);
 
     output+="Onset\tDuration\tTrialType\n";
-    for(int i =0;i<Procedure.size();i++)
+    for(int i =0;i<Taste_Name.size();i++)
     {
-        if(i%2!=0)
-        {
-            output += std::to_string((double)Onset[i-1]/1000) + "\t5\t" + Procedure[i-1] +"\n";
-        }
-        else
-        {
-            output += std::to_string((double)Onset[i+1]/1000) + "\t15\t" + Procedure[i+1] + "\n";
-        }
+        output += std::to_string(taste_Onset[i]/1000) + "\t24\t" + Taste_Name[i] + "_Cue\n";
+        output += std::to_string(rest_Onset[i]/1000) + "\t16\t" + Taste_Name[i] + "_Washout\n";
+        output += std::to_string(rest_Offset[i]/1000) + "\t6\t" + Taste_Name[i] + "_Rate\n";
     }
     std::cout<<output<<std::endl;
     return output;
@@ -464,7 +450,7 @@ int getScanStart2(std::string file)
     //adds file into a stream of data
     std::istringstream lineFinder(file);
     std::string lastLine;
-    std::string lineIdentifier = "StartRun2.RTTime:";
+    std::string lineIdentifier = "NextRun.RTTime:";
     
     //goes through the data line by line
     for (std::string line; std::getline(lineFinder, line);)
@@ -485,7 +471,7 @@ int getScanStart1(std::string file)
     //adds file into a stream of data
     std::istringstream lineFinder(file);
     std::string lastLine;
-    std::string lineIdentifier = "StartRun1.RTTime:";
+    std::string lineIdentifier = "StartScreen.RTTime:";
     
     //goes through the data line by line
     for (std::string line; std::getline(lineFinder, line);)

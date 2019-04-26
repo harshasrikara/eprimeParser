@@ -25,8 +25,10 @@ dataHolder::dataHolder(std::string file) //with file
     startTime = 0;
     
     //create vectors that hold data for each trial
-    Procedure = getProcedure(allData);
-    Onset = getOnset(allData);
+    TasteName = getTasteName(allData);
+    Taste_Onset = getTaste_Onset(allData);
+    Rest_Onset = getRest_Onset(allData);
+    Rest_Offset = getRest_Offset(allData);
 }
 
 dataHolder::dataHolder(std::string file, std::string uniqueId) //with file and 6 digit patient ID
@@ -117,15 +119,22 @@ std::string dataHolder::getAllData() const
 }
 
 //vector const getters
-std::vector<std::string> dataHolder::getProcedure() const
+std::vector<std::string> dataHolder::getTasteName() const
 {
-    return Procedure;
+    return TasteName;
 }
-std::vector<int> dataHolder::getOnset() const
+std::vector<int> dataHolder::getTaste_Onset() const
 {
-    return Onset;
+    return Taste_Onset;
 }
-
+std::vector<int> dataHolder::getRest_Onset() const
+{
+    return Rest_Onset;
+}
+std::vector<int> dataHolder::getRest_Offset() const
+{
+    return Rest_Offset;
+}
 
 /*
 std::vector<int> dataHolder::getSSDTone_ACC() const
@@ -133,12 +142,12 @@ std::vector<int> dataHolder::getSSDTone_ACC() const
     return SSDTone_ACC;
 }*/
 
-std::vector<std::string> dataHolder::getProcedure(std::string file)
+std::vector<std::string> dataHolder::getTasteName(std::string file)
 {
     std::vector<std::string> procedureList;
     std::istringstream lineFinder(file);
     std::string lastLine;
-    std::string lineIdentifier = "Procedure:";
+    std::string lineIdentifier = "TasteName";
     
     for (std::string line; std::getline(lineFinder, line);)
     {
@@ -163,33 +172,80 @@ std::vector<std::string> dataHolder::getProcedure(std::string file)
             std::string temp;
             ss>>temp;
             ss>>temp; //gets the second word in that line which is the procedure name
-            if(temp=="SmokeRateProc")
-            {
-                procedureList.push_back("SmokeRate");
-            }
-            else if (temp=="SStimTrial")
-            {
-                procedureList.push_back("SmokeCue");
-            }
-            else if (temp=="CStimTrial")
-            {
-                procedureList.push_back("ControlCue");
-            }
-            else if (temp=="ControlRateProc")
-            {
-                procedureList.push_back("ControlRate");
-            }
+            procedureList.push_back(temp);
         }
     }
     //std::cout<<ConditionList.size()<<" - ConditionListSize"<<std::endl;
     return procedureList;
 }
 
-std::vector<int> dataHolder::getOnset(std::string file)
+std::vector<int> dataHolder::getTaste_Onset(std::string file)
 {
     std::vector<int> FixOnsetList;
     std::istringstream lineFinder(file);
-    std::string lineIdentifier = "Onset";
+    std::string lineIdentifier = "Taste1";
+    
+    int num;
+    std::string lin;
+    
+    for (std::string line; std::getline(lineFinder, line);)
+    {
+        //ensures loop exits at the end of file
+        if(lineFinder.eof())
+        {
+            break;
+        }
+        //This is considered as Target RTTime - response time
+        while(check(line,lineIdentifier)==-1 && !lineFinder.eof()) //get first part
+        {
+            std::getline(lineFinder, line);
+        }
+        if(check(line, lineIdentifier)!=-1)
+        {
+            lin = line;
+            num = getNumber(lin);
+            FixOnsetList.push_back(num);
+        }
+    }
+    //std::cout<<TargetRTTimeList.size()<<" - Target_RTTimeList"<<std::endl;
+    return FixOnsetList;
+}
+std::vector<int> dataHolder::getRest_Onset(std::string file)
+{
+    std::vector<int> FixOnsetList;
+    std::istringstream lineFinder(file);
+    std::string lineIdentifier = "Rest.Onset";
+    
+    int num;
+    std::string lin;
+    
+    for (std::string line; std::getline(lineFinder, line);)
+    {
+        //ensures loop exits at the end of file
+        if(lineFinder.eof())
+        {
+            break;
+        }
+        //This is considered as Target RTTime - response time
+        while(check(line,lineIdentifier)==-1 && !lineFinder.eof()) //get first part
+        {
+            std::getline(lineFinder, line);
+        }
+        if(check(line, lineIdentifier)!=-1)
+        {
+            lin = line;
+            num = getNumber(lin);
+            FixOnsetList.push_back(num);
+        }
+    }
+    //std::cout<<TargetRTTimeList.size()<<" - Target_RTTimeList"<<std::endl;
+    return FixOnsetList;
+}
+std::vector<int> dataHolder::getRest_Offset(std::string file)
+{
+    std::vector<int> FixOnsetList;
+    std::istringstream lineFinder(file);
+    std::string lineIdentifier = "Rest.Offset";
     
     int num;
     std::string lin;

@@ -23,8 +23,10 @@ class dataHolder
     int startTime;
     std::string uniquePatientId; //6 digits
     
-    std::vector<std::string> Procedure; // neutral/loss/gain
-    std::vector<int> Onset;// anticipate
+    std::vector<std::string> TasteName; // neutral/loss/gain
+    std::vector<int> Taste_Onset;// anticipate
+    std::vector<int> Rest_Onset;
+    std::vector<int> Rest_Offset;
     //std::vector<int> SSDTone_ACC; //unused
     
     public:
@@ -40,8 +42,10 @@ class dataHolder
     std::string getAllData() const; //done
     
     //vector getters
-    std::vector<std::string> getProcedure() const;
-    std::vector<int> getOnset() const;
+    std::vector<std::string> getTasteName() const;
+    std::vector<int> getTaste_Onset() const;
+    std::vector<int> getRest_Onset() const;
+    std::vector<int> getRest_Offset() const;
     //std::vector<int> getSSDTone_ACC() const;
     
     //setters and calculations
@@ -54,8 +58,10 @@ class dataHolder
     int getFirstNumber(std::string); //done
     
     //search and extract functions(multiple values)
-    std::vector<std::string> getProcedure(std::string);
-    std::vector<int> getOnset(std::string);
+    std::vector<std::string> getTasteName(std::string);
+    std::vector<int> getTaste_Onset(std::string);
+    std::vector<int> getRest_Onset(std::string);
+    std::vector<int> getRest_Offset(std::string);
     //std::vector<int> getSSDTone_ACC(std::string);
 };
 
