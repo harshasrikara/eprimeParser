@@ -92,7 +92,7 @@ int main(int argc, const char * argv[]) {
             //std::cout<<second<<std::endl;
             
             scanStart1 = getScanStart1(second);
-            scanStart2 = getScanStart2(second);
+            scanStart2 = getScanStart2(removedPracticeSessions);
             //std::cout << scanStart1 << " " << scanStart2 << std::endl;
             
             
@@ -236,11 +236,11 @@ std::string simplifyData(std::string info)
         {
             output = output + line +"\n";
         }
-        if(check(line,"StartScreen.RTTime:")!=-1)
+        if(check(line,"FixWait.RTTime:")!=-1)
         {
-            output = output + line +"\n";
+            output = output + line + "\n";
         }
-        if(check(line,"NextRun.RTTime:")!=-1)
+        if(check(line,"StartScreenB.RTTime:")!=-1)
         {
             output = output + line +"\n";
         }
@@ -438,7 +438,7 @@ std::string print(dataHolder data, int st)
     {
         output += std::to_string(taste_Onset[i]/1000) + "\t24\t" + Taste_Name[i] + "_Cue\n";
         output += std::to_string(rest_Onset[i]/1000) + "\t16\t" + Taste_Name[i] + "_Washout\n";
-        output += std::to_string(rest_Offset[i]/1000) + "\t6\t" + Taste_Name[i] + "_Rate\n";
+        output += std::to_string((rest_Offset[i]+100)/1000) + "\t6\t" + Taste_Name[i] + "_Rate\n";
     }
     std::cout<<output<<std::endl;
     return output;
@@ -450,12 +450,17 @@ int getScanStart2(std::string file)
     //adds file into a stream of data
     std::istringstream lineFinder(file);
     std::string lastLine;
-    std::string lineIdentifier = "NextRun.RTTime:";
+    std::string lineIdentifier = "FixWait.RTT";
     
     //goes through the data line by line
     for (std::string line; std::getline(lineFinder, line);)
     {
         //RTTime is considered as the start time for trials
+        while(check(line,lineIdentifier)==-1) //get first part
+        {
+            std::getline(lineFinder, line);
+        }
+        std::getline(lineFinder, line);
         while(check(line,lineIdentifier)==-1) //get first part
         {
             std::getline(lineFinder, line);
@@ -471,7 +476,7 @@ int getScanStart1(std::string file)
     //adds file into a stream of data
     std::istringstream lineFinder(file);
     std::string lastLine;
-    std::string lineIdentifier = "StartScreen.RTTime:";
+    std::string lineIdentifier = "FixWait.RTT";
     
     //goes through the data line by line
     for (std::string line; std::getline(lineFinder, line);)
