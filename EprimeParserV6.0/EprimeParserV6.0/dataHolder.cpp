@@ -1,6 +1,6 @@
 //
 //  dataHolder.cpp
-//  eprimeParser
+//  EprimeParser V6.0
 //
 //  Created by Harsha Srikara on 3/3/19.
 //  Copyright © 2019 Harsha Srikara. All rights reserved.
@@ -33,27 +33,8 @@ dataHolder::dataHolder(std::string file) //with file
 
 dataHolder::dataHolder(std::string file, std::string uniqueId) //with file and 6 digit patient ID
 {
-    /*
-    //initialize variables
-    allData = file;
-    uniquePatientId = uniqueId;
-    
-    //get unique idenitifiers for this trial
-    //TrialNumber = getTrialNumber(allData);
-    //startTime = getStartTime(allData);
-    
-    //create vectors that hold data for each trial
-    ConditionList = getCondition(allData);
-    Anticipate_OnsetTime = getAnticipate_OnsetTime(allData);// anticipate
-    Target_OnsetTime = getTarget_OnsetTime(allData); // response
-    Target_RTTime = getTarget_RTTime(allData); //0 if miss else number
-    Anticipate_Duration = getAnticipate_Duration(allData);
-    Target_Duration = getTarget_Duration(allData);
-    Feedback_Duration = getFeedback_Duration(allData);
-    Feedback_OnsetTime = getFeedback_OnsetTime(allData);
-    updateHitMissCondition();
-    updateAnticipateList();
-     */
+    //constructor not used
+    //data does not contain patient ID for this type of trial
 }
 
 int dataHolder::getTrialNumber(std::string file)
@@ -78,6 +59,7 @@ int dataHolder::getTrialNumber(std::string file)
     return -1;
 }
 
+//not used in this code. Passed in parameter does not contain start time
 int dataHolder::getStartTime(std::string file)
 {
     //adds file into a stream of data
@@ -135,13 +117,6 @@ std::vector<int> dataHolder::getRest_Offset() const
 {
     return Rest_Offset;
 }
-
-/*
-std::vector<int> dataHolder::getSSDTone_ACC() const
-{
-    return SSDTone_ACC;
-}*/
-
 std::vector<std::string> dataHolder::getTasteName(std::string file)
 {
     std::vector<std::string> procedureList;

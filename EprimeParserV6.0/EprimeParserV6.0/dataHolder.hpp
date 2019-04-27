@@ -23,11 +23,10 @@ class dataHolder
     int startTime;
     std::string uniquePatientId; //6 digits
     
-    std::vector<std::string> TasteName; // neutral/loss/gain
-    std::vector<int> Taste_Onset;// anticipate
-    std::vector<int> Rest_Onset;
-    std::vector<int> Rest_Offset;
-    //std::vector<int> SSDTone_ACC; //unused
+    std::vector<std::string> TasteName; // H2O/ HCD
+    std::vector<int> Taste_Onset; //onset of taste cue
+    std::vector<int> Rest_Onset;  //onset of washout
+    std::vector<int> Rest_Offset; //onset of rate
     
     public:
     //constructors
@@ -46,7 +45,6 @@ class dataHolder
     std::vector<int> getTaste_Onset() const;
     std::vector<int> getRest_Onset() const;
     std::vector<int> getRest_Offset() const;
-    //std::vector<int> getSSDTone_ACC() const;
     
     //setters and calculations
     int getTrialNumber(std::string); //done
@@ -62,7 +60,6 @@ class dataHolder
     std::vector<int> getTaste_Onset(std::string);
     std::vector<int> getRest_Onset(std::string);
     std::vector<int> getRest_Offset(std::string);
-    //std::vector<int> getSSDTone_ACC(std::string);
 };
 
 #endif /* dataHolder_hpp */
