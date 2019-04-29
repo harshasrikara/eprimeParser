@@ -27,32 +27,12 @@ dataHolder::dataHolder(std::string file) //with file
     //create vectors that hold data for each trial
     Procedure = getProcedure(allData);
     Onset = getOnset(allData);
-    //updateHitMissCondition();
 }
 
 dataHolder::dataHolder(std::string file, std::string uniqueId) //with file and 6 digit patient ID
 {
-    /*
-    //initialize variables
-    allData = file;
-    uniquePatientId = uniqueId;
-    
-    //get unique idenitifiers for this trial
-    //TrialNumber = getTrialNumber(allData);
-    //startTime = getStartTime(allData);
-    
-    //create vectors that hold data for each trial
-    ConditionList = getCondition(allData);
-    Anticipate_OnsetTime = getAnticipate_OnsetTime(allData);// anticipate
-    Target_OnsetTime = getTarget_OnsetTime(allData); // response
-    Target_RTTime = getTarget_RTTime(allData); //0 if miss else number
-    Anticipate_Duration = getAnticipate_Duration(allData);
-    Target_Duration = getTarget_Duration(allData);
-    Feedback_Duration = getFeedback_Duration(allData);
-    Feedback_OnsetTime = getFeedback_OnsetTime(allData);
-    updateHitMissCondition();
-    updateAnticipateList();
-     */
+    //this constructor is not used
+    //data deos not contain relevant parameters for use such as uniqueID
 }
 
 int dataHolder::getTrialNumber(std::string file)
@@ -127,13 +107,6 @@ std::vector<int> dataHolder::getOnset() const
     return Onset;
 }
 
-
-/*
-std::vector<int> dataHolder::getSSDTone_ACC() const
-{
-    return SSDTone_ACC;
-}*/
-
 std::vector<std::string> dataHolder::getProcedure(std::string file)
 {
     std::vector<std::string> procedureList;
@@ -164,6 +137,8 @@ std::vector<std::string> dataHolder::getProcedure(std::string file)
             std::string temp;
             ss>>temp;
             ss>>temp; //gets the second word in that line which is the procedure name
+            
+            //use defined names as per experiment
             if(temp=="SmokeRateProc")
             {
                 procedureList.push_back("SmokeRate");
@@ -182,7 +157,6 @@ std::vector<std::string> dataHolder::getProcedure(std::string file)
             }
         }
     }
-    //std::cout<<ConditionList.size()<<" - ConditionListSize"<<std::endl;
     return procedureList;
 }
 
@@ -202,7 +176,7 @@ std::vector<int> dataHolder::getOnset(std::string file)
         {
             break;
         }
-        //This is considered as Target RTTime - response time
+        
         while(check(line,lineIdentifier)==-1 && !lineFinder.eof()) //get first part
         {
             std::getline(lineFinder, line);

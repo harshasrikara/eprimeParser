@@ -42,7 +42,6 @@ class dataHolder
     //vector getters
     std::vector<std::string> getProcedure() const;
     std::vector<int> getOnset() const;
-    //std::vector<int> getSSDTone_ACC() const;
     
     //setters and calculations
     int getTrialNumber(std::string); //done
@@ -56,7 +55,6 @@ class dataHolder
     //search and extract functions(multiple values)
     std::vector<std::string> getProcedure(std::string);
     std::vector<int> getOnset(std::string);
-    //std::vector<int> getSSDTone_ACC(std::string);
 };
 
 #endif /* dataHolder_hpp */
