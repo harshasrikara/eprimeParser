@@ -119,7 +119,7 @@ std::vector<int> dataHolder::getRest_Offset() const
 }
 std::vector<std::string> dataHolder::getTasteName(std::string file)
 {
-    std::vector<std::string> procedureList;
+    std::vector<std::string> taste_name;
     std::istringstream lineFinder(file);
     std::string lastLine;
     std::string lineIdentifier = "TasteName";
@@ -147,16 +147,16 @@ std::vector<std::string> dataHolder::getTasteName(std::string file)
             std::string temp;
             ss>>temp;
             ss>>temp; //gets the second word in that line which is the procedure name
-            procedureList.push_back(temp);
+            taste_name.push_back(temp);
         }
     }
     //std::cout<<ConditionList.size()<<" - ConditionListSize"<<std::endl;
-    return procedureList;
+    return taste_name;
 }
 
 std::vector<int> dataHolder::getTaste_Onset(std::string file)
 {
-    std::vector<int> FixOnsetList;
+    std::vector<int> taste_onsetlist;
     std::istringstream lineFinder(file);
     std::string lineIdentifier = "Taste1";
     
@@ -179,15 +179,15 @@ std::vector<int> dataHolder::getTaste_Onset(std::string file)
         {
             lin = line;
             num = getNumber(lin);
-            FixOnsetList.push_back(num);
+            taste_onsetlist.push_back(num);
         }
     }
     //std::cout<<TargetRTTimeList.size()<<" - Target_RTTimeList"<<std::endl;
-    return FixOnsetList;
+    return taste_onsetlist;
 }
 std::vector<int> dataHolder::getRest_Onset(std::string file)
 {
-    std::vector<int> FixOnsetList;
+    std::vector<int> rest_onsetlist;
     std::istringstream lineFinder(file);
     std::string lineIdentifier = "Rest.Onset";
     
@@ -210,15 +210,15 @@ std::vector<int> dataHolder::getRest_Onset(std::string file)
         {
             lin = line;
             num = getNumber(lin);
-            FixOnsetList.push_back(num);
+            rest_onsetlist.push_back(num);
         }
     }
     //std::cout<<TargetRTTimeList.size()<<" - Target_RTTimeList"<<std::endl;
-    return FixOnsetList;
+    return rest_onsetlist;
 }
 std::vector<int> dataHolder::getRest_Offset(std::string file)
 {
-    std::vector<int> FixOnsetList;
+    std::vector<int> rest_offsetlist;
     std::istringstream lineFinder(file);
     std::string lineIdentifier = "Rest.Offset";
     
@@ -241,11 +241,11 @@ std::vector<int> dataHolder::getRest_Offset(std::string file)
         {
             lin = line;
             num = getNumber(lin);
-            FixOnsetList.push_back(num);
+            rest_offsetlist.push_back(num);
         }
     }
     //std::cout<<TargetRTTimeList.size()<<" - Target_RTTimeList"<<std::endl;
-    return FixOnsetList;
+    return rest_offsetlist;
 }
 
 //gets a number inside a string

@@ -36,9 +36,7 @@ int getScanStart2(std::string file);
 int getScanStart1(std::string file);
 
 int main(int argc, const char * argv[]) {
-    std::cout << std::endl;
-    std::string file= "";
-    
+    std::string file= ""; //will contain the name of each file as it is opened
     std::string listOfFiles = getData("list.txt");
     
         std::istringstream lineFinder(listOfFiles);
@@ -46,14 +44,15 @@ int main(int argc, const char * argv[]) {
         //cycle through all the lines in a string
         for (std::string line; std::getline(lineFinder, line);)
         {
-            file = line;
+        file = line;
         //collecting user input
         //std::cout<<"Enter the filename ";
         //std::getline(std::cin,file);
             
-        int scanStart1 = 0;
-        int scanStart2 = 0;
+        int scanStart1 = 0; //beginning of trial 1
+        int scanStart2 = 0; //beginning of trial 2
             
+        //use this to break when have user input
         if(file == "exit")
         {
             return 0;
@@ -99,10 +98,7 @@ int main(int argc, const char * argv[]) {
             dataHolder firstTrial(first);
             dataHolder secondTrial(second);
             
-            //printVector(firstTrial.getProcedure(),firstTrial.getOnset());
-            //printVector(secondTrial.getProcedure(),secondTrial.getOnset());
-            //print(firstTrial, scanStart1);
-            //print(lastTrial, scanStart2);
+            
             if(/* DISABLES CODE */ (true))
             {
                 
@@ -113,18 +109,12 @@ int main(int argc, const char * argv[]) {
                 //can be changed depending on how the file should be outputted
                 std::cout<<"Writing out trial1"<<std::endl;
                 trialNumFileName = file.substr(0,13)+"_task-FOOD-R01_bold.tsv";
-                //+ firstTrial.getUniquePatientId()
-                //+ "_ses-01_task-SST-Run1"
-                //+/* std::to_string(firstTrial.getTrialNumber()) +*/ ".tsv";
                 myfile.open (trialNumFileName);
                 myfile << print(firstTrial,scanStart1);
                 myfile.close();
                 
                 std::cout<<"Writing out trial2"<<std::endl;
                 trialNumFileName = file.substr(0,13)+"_task-FOOD-R02_bold.tsv";
-                //+ lastTrial.getUniquePatientId()
-                //+ "_ses-01_task-SST-Run2"
-                //+/* std::to_string(secondTrial.getTrialNumber()) +*/ ".tsv";
                 myfile.open (trialNumFileName);
                 myfile << print(secondTrial,scanStart2);
                 myfile.close();
