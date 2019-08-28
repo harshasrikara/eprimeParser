@@ -1,5 +1,5 @@
 # eprimeParser
-parse eprime log files and extract relevant data
+parse eprime log files and extract relevant data for analytics
 
 ## Note
 ## Additional Information and documention is being added. The information below is only an overview of the project. More information and specific readme files for each project will be developed soon. Background information deals only with V1.0, will be updated soon...
