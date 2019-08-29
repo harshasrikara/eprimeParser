@@ -2,7 +2,7 @@
 parse eprime log files and extract relevant data for analytics
 
 ## Note
-## Additional Information and documention is being added. The information below is only an overview of the project. More information and specific readme files for each project will be developed soon. Background information deals only with V1.0, will be updated soon...
+#### Additional Information and documention is being added. The information below is only an overview of the project. More information and specific readme files for each project will be developed soon. Background information deals only with V1.0, will be updated soon...
 
 ### Background Information
 The code was developed to assist in easily parsing eprime text files and extracting relevant information from it. It functions to extract information on trials from the eprime files. This information includes data on the procedure, cue on and off onset times as well as calculating the duration based on those values. The formatting of the information follows standards that are Onset-Duration-Trial_Type. All EprimeParser versions will output data in this format. This ensures maximum flexibility and the ability to log any type of participant data irrespective of whether the experiment is fixed or dynamic. Additional features present in the code include splitting the log files into smaller partitions if there are multiple trial runs and outputting them seperatly. This software is designed for use at the research facilities of the center for brain health under the lab directed by Francesca Filbey. More information regarding the lab and their work can be found at this link. https://labs.utdallas.edu/filbeylab/
